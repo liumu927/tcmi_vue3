@@ -1,0 +1,7 @@
+// 对 Element-Plus 组件库中样式进行重置
+
+:root {
+  .el-header {
+    --el-header-padding: 0;
+  }
+}

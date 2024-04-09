@@ -1,0 +1,121 @@
+[{
+  "id": 1,
+  "username": "root",
+  "password": "111111",
+  "role": {
+      "roleName": "超级管理员",
+      "roleType": 1,
+      "rights": [
+          "/home",
+          "/admin-manage",
+          "/admin-manage/admin",
+          "/right-manage",
+          "/right-manage/role",
+          "/right-manage/right",
+          "/index",
+          "/front/news/list",
+          "/front/medicine/list",
+          "/front/prescription/list",
+          "/front/service/consult",
+          "/front/user",
+          "/front/user/mine",
+          "/front/user/stars",
+          "/front/user/prescription/upload"
+      ]
+  }
+},
+{
+  "id": 2,
+  "username": "karry",
+  "password": "111111",
+  "role": {
+      "roleName": "平台管理员",
+      "roleType": 2,
+      "rights": [
+        "/home",
+        "/user-manage",
+        "/user-manage/user",
+        "/right-manage",
+        "/right-manage/role",
+        "/right-manage/right",
+        "/medicine-manage",
+        "/medicine-manage/category",
+        "/medicine-manage/message",
+        "/prescription-manage",
+        "/prescription-manage/category",
+        "/prescription-manage/message",
+        "/system-manage",
+        "/system-manage/carousel",
+        "/system-manage/news",
+        "/system-manage/service",
+        "/data-manage",
+        "/data-manage/chart",
+        "/index",
+        "/front/news/list",
+        "/front/medicine/list",
+        "/front/prescription/list",
+        "/front/service/consult",
+        "/front/user",
+        "/front/user/mine",
+        "/front/user/stars",
+        "/front/user/prescription/upload"
+      ]
+  }
+},
+{
+  "id": 3,
+  "username": "user",
+  "password": "111111",
+  "role": {
+      "roleName": "普通用户",
+      "roleType": 3,
+      "rights": [
+          "/index",
+          "/front/news/list",
+          "/front/medicine/list",
+          "/front/prescription/list",
+          "/front/service/consult",
+          "/front/user",
+          "/front/user/mine",
+          "/front/user/stars"
+      ]
+  }
+},
+{
+  "id": 4,
+  "username": "proUser",
+  "password": "111111",
+  "role": {
+      "roleName": "专业用户",
+      "roleType": 4,
+      "rights": [
+        "/index",
+        "/front/news/list",
+        "/front/medicine/list",
+        "/front/prescription/list",
+        "/front/service/consult",
+        "/front/user",
+        "/front/user/mine",
+        "/front/user/stars",
+        "/front/user/prescription/upload"
+      ]
+  }
+},
+{
+  "id": 5,
+  "username": "tourists",
+  "password": "111111",
+  "role": {
+      "roleName": "游客",
+      "roleType": 5,
+      "rights": [
+        "/index",
+        "/front/news/list",
+        "/front/medicine/list",
+        "/front/prescription/list",
+        "/front/user",
+        "/front/user/mine"
+      ]
+  }
+}
+]

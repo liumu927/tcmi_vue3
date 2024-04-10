@@ -1,5 +1,9 @@
 <template>
-  <h2>新闻页</h2>
+  <!-- 分类 -->
+
+  <!-- 科普资讯列表 -->
+
+  <!-- 资讯详情页 -->
 </template>
 
 <script setup></script>

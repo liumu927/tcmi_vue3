@@ -9,7 +9,6 @@ export const useRouterStore = defineStore("router", () => {
   const isGetterRouter = ref(false);
 
   const changeRouter = (value) => {
-    console.log(111);
     isGetterRouter.value = value;
   };
 

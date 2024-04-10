@@ -11,8 +11,12 @@ export const getFrontRightsApi = (flag) => {
 };
 // 登录接口
 export const postUserLogin = (params) => {
-  return req.post(`${base.login}`, params)
+  return req.post(base.login, params)
 }
+// 注册接口
+export const postUserRegister = (params) => {
+  return req.post(base.register, params)
+} 
 
 
 // ================= 后台 =================

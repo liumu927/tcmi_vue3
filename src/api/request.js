@@ -44,7 +44,7 @@ req.interceptors.response.use(
 
     // 不成功
     if (!isSuccess) {
-      alert(res.data.msg)
+      ElMessage.warning(res.data.msg);
     }
   },
   (err) => {

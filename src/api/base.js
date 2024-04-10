@@ -5,6 +5,7 @@ const base = {
   host: '/api',  // 域名
 
   // ================= 公共api =================
+  register: '/users/register', // 用户注册接口
   login: '/users/login', // 用户登录接口
   frontRights: '/rights/front', // 前台权限
   

@@ -98,7 +98,7 @@ export const useUserStore = defineStore(
 
       changeRouter(false);
 
-      router.push("/");
+      router.push("/login");
     };
 
     return {

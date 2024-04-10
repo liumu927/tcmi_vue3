@@ -20,7 +20,7 @@
       style="font-weight: bold"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="ruleForm.username" :prefix-icon="User"/>
+        <el-input v-model="ruleForm.username" :prefix-icon="User" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input
@@ -44,7 +44,10 @@
         <el-button @click="resetForm(ruleFormRef)" id="reset">重置</el-button>
       </el-form-item>
       <!-- 跳转注册 -->
-      <el-link @click="goRegister">没有账号？去注册</el-link>
+      <el-link @click="goRegister" class="goRegister">没有账号？去注册</el-link
+      ><br />
+      <!-- 跳转注册 -->
+      <el-link @click="goHome" class="goHome">先不登录 去首页</el-link>
     </el-form>
   </div>
 </template>
@@ -163,6 +166,11 @@ const resetForm = (ruleFormRef) => {
 const goRegister = () => {
   router.push("/register");
 };
+
+// 首页
+const goHome = () => {
+  router.push("/");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -203,8 +211,12 @@ const goRegister = () => {
     width: 20%;
     font-family: "Courier New", Courier, monospace;
   }
-  .el-link {
-    margin-right: 8px;
+  .goRegister {
+    color: #0000ff;
+  }
+  .goHome {
+    margin-top: 5px;
+    font-size: 12px;
     color: #0000ff;
   }
 }

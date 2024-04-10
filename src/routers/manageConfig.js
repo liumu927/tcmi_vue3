@@ -1,8 +1,10 @@
 import HomeView from "@/views/manage/home-manage/HomeView.vue";
 // 管理员管理
 import AdminView from "@/views/manage/admin-manage/AdminView.vue";
-// 用户管理
+// 用户管理-用户列表
 import UserView from "@/views/manage/user-manage/UserView.vue";
+// 用户管理-审核列表
+import AuditView from "@/views/manage/user-manage/AuditView.vue";
 // 权限管理-角色列表
 import RoleView from "@/views/manage/right-manage/RoleView.vue";
 // 权限管理-权限列表
@@ -42,12 +44,17 @@ const routes = [
     component: UserView,
   },
   {
+    path: "/manage/user_manage/audit",
+    name: "audit",
+    component: AuditView,
+  },
+  {
     path: "/manage/right_manage/role",
     name: "role",
     component: RoleView,
   },
   {
-    path: "/manage/right_manage/right/",
+    path: "/manage/right_manage/right",
     name: "right",
     component: RightView,
   },

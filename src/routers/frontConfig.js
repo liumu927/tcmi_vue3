@@ -37,7 +37,7 @@ const routes = [
     component: () => import("@/views/front/prescription/preList.vue"),
     meta: { requiresAuth: false },
   },
-  // 用户展示
+  // 我的
   {
     path: "/front/user/mine",
     name: "mine",
@@ -56,6 +56,13 @@ const routes = [
     path: "/front/user/prescription/upload",
     name: "upload",
     component: () => import("@/views/front/user/upload.vue"),
+    meta: { requiresAuth: true },
+  },
+  // 认证功能
+  {
+    path: "/front/user/identify",
+    name: "identify",
+    component: () => import("@/views/front/user/identify.vue"),
     meta: { requiresAuth: true },
   },
 ];

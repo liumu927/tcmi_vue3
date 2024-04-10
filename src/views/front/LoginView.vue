@@ -73,9 +73,9 @@ const router = useRouter();
 const ruleFormRef = ref();
 // 收集表单内容
 const ruleForm = reactive({
-  username: "",
-  password: "",
-  roleName: "",
+  username: "user",
+  password: "123456",
+  roleName: "普通用户",
 });
 // 角色映射
 const roleMapping = {

@@ -1,13 +1,17 @@
 // 用户信息相关
 
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { postUserLogin, getUserInfoApi } from "@/api/api.js";
 import router from "@/routers";
+import { useRouterStore } from "@/stores/useRouterStore";
 
 export const useUserStore = defineStore(
   "user",
   () => {
+    // 是否登录
+    const isLogin = ref(false);
+
     // token
     const token = ref("");
 
@@ -26,11 +30,6 @@ export const useUserStore = defineStore(
           "/manage/login",
         ],
       },
-    });
-
-    // getters 登录标志 判断用户是否登录成功
-    const isLogin = computed(() => {
-      return !!userInfo.value.id;
     });
 
     // 更新用户信息
@@ -53,14 +52,13 @@ export const useUserStore = defineStore(
           // 存储token
           token.value = jwtToken;
 
-
           // 获取用户详细信息
           const userInfo = await getUserInfoApi();
 
-          // console.log(userInfo);
-
           // 存储用户数据
           changeUser(userInfo.data)
+
+          isLogin.value = true;
 
           // 页面跳转
           if(userInfo.data.role.roleType === 302 || userInfo.data.role.roleType === 303) {
@@ -76,6 +74,10 @@ export const useUserStore = defineStore(
 
     // actions 退出登录
     const exitAction = async () => {
+      const { changeRouter } = useRouterStore();
+
+      isLogin.value = false;
+
       // 清空仓库
       token.value = "";
       userInfo.value = {
@@ -93,6 +95,8 @@ export const useUserStore = defineStore(
           ],
         },
       };
+
+      changeRouter(false);
 
       router.push("/");
     };

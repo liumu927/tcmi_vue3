@@ -46,14 +46,12 @@
           </template>
 
           <!-- 判断是否登录 -->
-          <template v-if="isLogin">
-            <el-button type="danger" @click="handleExit"> 退出登录 </el-button>
+          <template v-if="!isLogin">
+            <el-button type="success" @click="handleLogin">去登录</el-button>
           </template>
-          <template v-else
-            ><el-button type="success" @click="handleLogin"
-              >去登录</el-button
-            ></template
-          >
+          <template v-else>
+            <el-button type="danger" @click="handleExit">退出登录</el-button>
+          </template>
           <el-button @click="handleManage">进入后台</el-button>
         </el-drawer>
       </template>
@@ -66,10 +64,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref, toRaw } from "vue";
+import { onMounted, ref } from "vue";
 import { getFrontRightsApi } from "@/api/api.js";
 import { useUserStore } from "@/stores/useUserStore";
-import { useRouterStore } from "@/stores/useRouterStore";
 import { useRouter, useRoute } from "vue-router";
 import {
   ChatDotRound,
@@ -79,9 +76,10 @@ import {
   Upload,
   Postcard,
 } from "@element-plus/icons-vue";
+import { storeToRefs } from "pinia";
 
-const { exitAction, userInfo, isLogin } = useUserStore();
-const { changeRouter } = useRouterStore();
+const { exitAction, userInfo } = useUserStore();
+const { isLogin } = storeToRefs(useUserStore());
 
 const router = useRouter();
 // 当前路由对象
@@ -92,43 +90,39 @@ const circleUrl = "/avatar.png";
 const datalist = ref([]);
 // 弹出抽屉
 const dialog = ref(false);
+// 映射图标
+const mapIcon = { ChatDotRound, User, Star, SwitchButton, Upload, Postcard };
 
 onMounted(() => {
   getFrontRights();
 });
 
-// 映射图标
-const mapIcon = { ChatDotRound, User, Star, SwitchButton, Upload, Postcard };
 // 获取导航栏数据
 const getFrontRights = async () => {
   try {
     // 在配置文件中 使用反向代理 解决跨域 【该配置已经无法解决问题，直接在后端配置了注解】【前后端都配置了cors跨域】
     var res = await getFrontRightsApi("front");
-    // console.log("res:", res);
 
     datalist.value = res.data;
-    // console.log("datalist.value", datalist.value);
   } catch (error) {
     console.log(error);
   }
 };
+
 // 登录
 const handleLogin = () => {
-  // console.log(isLogin);
-
-  if (!isLogin) {
+  if (!isLogin.value) {
     router.push("/login");
   } else {
     alert("您已经登录！");
   }
 };
+
 // 进入后台
 const handleManage = () => {
   // 未登录：跳转后台登录页
-  if (!isLogin) {
+  if (!isLogin.value) {
     router.push("/manage/login");
-    // 调用changeRouter方法改变状态
-    // changeRouter(false);
   } else if (userInfo.role.roleType === 300 || userInfo.role.roleType === 301) {
     // 直接通往后台
     router.push("/manage/home");
@@ -137,6 +131,7 @@ const handleManage = () => {
     alert("对不起，您没有访问后台的权限！");
   }
 };
+
 // 退出登录
 const handleExit = () => {
   // 在pinia中进行退出操作：清除用户信息
@@ -144,13 +139,8 @@ const handleExit = () => {
 
   // 关闭抽屉
   dialog.value = false;
-
-  // 【问题】退出登录后，抽屉弹出框的信息没有更新，但是强行刷新页面会跳到登录页而不是首页
-  // location.reload();
-
-  // 【问题】这里不生效
-  // changeRouter(false);
 };
+
 // 根据身份对应权限渲染列表
 const checkAuth = (path) => {
   return userInfo.role.rights.includes(path);

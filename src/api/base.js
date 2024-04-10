@@ -15,9 +15,9 @@ const base = {
   updateRight: '/rights/updateRight', // 修改权限
   deleteRight: 'rights/deleteRight', // 删除权限
 
-  rolesList: '/manage/roles', // 角色列表
-  updateRole: '/manage/roles/updateRole', // 修改角色
-  deleteRole: '/manage/roles/deleteRole', // 删除角色
+  rolesList: '/roles', // 角色列表
+  updateRole: '/roles/updateRole', // 修改角色
+  deleteRole: '/roles/deleteRole', // 删除角色
 
   userList: '/users', // 用户列表
   userInfo: '/users/userInfo', // 用户列表

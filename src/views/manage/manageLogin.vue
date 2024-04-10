@@ -70,9 +70,9 @@ const router = useRouter();
 // ref获取表单对象
 const ruleFormRef = ref();
 const ruleForm = reactive({
-  username: "",
-  password: "",
-  roleName: "",
+  username: "karry",
+  password: "123456",
+  roleName: "平台管理员",
 });
 // 角色映射
 const roleMapping = {

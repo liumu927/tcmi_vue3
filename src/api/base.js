@@ -5,9 +5,10 @@ const base = {
   host: '/api',  // 域名
 
   // ================= 公共api =================
+  frontRights: '/rights/front', // 前台权限
   register: '/users/register', // 用户注册接口
   login: '/users/login', // 用户登录接口
-  frontRights: '/rights/front', // 前台权限
+  logout: '/users/logout', // 退出登录
   
 
   // ================= 后台api =================

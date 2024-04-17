@@ -37,28 +37,33 @@ const routes = [
     component: () => import("@/views/front/prescription/preList.vue"),
     meta: { requiresAuth: false },
   },
-  // 我的
+  {
+    path:"/front/user",
+    name:"user",
+    meta: { requiresAuth: false },
+  },
+  // 我的——我的信息
   {
     path: "/front/user/mine",
     name: "mine",
     component: () => import("@/views/front/user/mine.vue"),
     meta: { requiresAuth: true },
   },
-  // 收藏
+  // 我的——我的收藏
   {
     path: "/front/user/stars",
     name: "stars",
     component: () => import("@/views/front/user/stars.vue"),
     meta: { requiresAuth: true },
   },
-  // 方剂上传
+  // 我的——我的方剂上传
   {
     path: "/front/user/prescription/upload",
     name: "upload",
     component: () => import("@/views/front/user/upload.vue"),
     meta: { requiresAuth: true },
   },
-  // 认证功能
+  // 我的——我的认证功能
   {
     path: "/front/user/identify",
     name: "identify",

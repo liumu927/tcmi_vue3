@@ -64,7 +64,7 @@ import { reactive, ref } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
 import { loadFull } from "tsparticles";
 import { config } from "@/utils/register_config";
-import { postUserRegister } from "@/api/api.js";
+import { postUserRegisterApi } from "@/api/api.js";
 
 // 粒子配置
 const particlesInit = async (engine) => {
@@ -163,7 +163,7 @@ const registerUser = (ruleFormRef) => {
 
       // console.log(params);
 
-      const res = await postUserRegister(params);
+      const res = await postUserRegisterApi(params);
 
       console.log(res);
       if(res.code === 200){

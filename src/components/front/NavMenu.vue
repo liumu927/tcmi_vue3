@@ -11,10 +11,7 @@
     <div class="title">百草</div>
     <template v-for="data in datalist" :key="data.path">
       <!-- 含多级菜单 -->
-      <template
-        :index="data.path"
-        v-if="data.children.length && checkAuth(data.path)"
-      >
+      <el-menu-item v-if="data.children.length && checkAuth(data.path)">
         <!-- 头像框 -->
         <el-avatar :size="38" :src="circleUrl" @click="dialog = true" />
         <!-- 抽屉显示子菜单 -->
@@ -31,7 +28,8 @@
               </p>
             </div>
           </template>
-          <!-- 菜单项 -->
+
+          <!-- 二级菜单项 -->
           <template v-for="item in data.children" :key="item.path">
             <el-menu-item
               :index="item.path"
@@ -46,15 +44,16 @@
           </template>
 
           <!-- 判断是否登录 -->
-          <template v-if="!isLogin">
-            <el-button type="success" @click="handleLogin">去登录</el-button>
-          </template>
-          <template v-else>
-            <el-button type="danger" @click="handleExit">退出登录</el-button>
-          </template>
+          <el-button v-if="!isLogin" type="success" @click="handleLogin"
+            >去登录</el-button
+          >
+          <el-button v-else type="danger" @click="handleExit"
+            >退出登录</el-button
+          >
+
           <el-button @click="handleManage">进入后台</el-button>
         </el-drawer>
-      </template>
+      </el-menu-item>
       <!-- 仅有一级菜单 -->
       <el-menu-item :index="data.path" v-else-if="checkAuth(data.path)">
         <p>{{ data.title }}</p>
@@ -97,7 +96,9 @@ onMounted(() => {
   getFrontRights();
 });
 
-// 获取导航栏数据
+/**
+ * 获取导航栏数据
+ */
 const getFrontRights = async () => {
   try {
     // 在配置文件中 使用反向代理 解决跨域 【该配置已经无法解决问题，直接在后端配置了注解】【前后端都配置了cors跨域】
@@ -109,7 +110,21 @@ const getFrontRights = async () => {
   }
 };
 
-// 登录
+// 用一个短暂的延迟切换对话框【备用，目前不设置该项也可以】
+// const handleOpenDrawer = (key, keyPath) => {
+//   console.log(key, keyPath);
+//   setTimeout(() => {
+//     // 使用 Promise 来处理延迟更新
+//     new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
+//       dialog.value = !dialog.value;
+//       console.log(33333, dialog.value);
+//     });
+//   }, 10); // 根据需要调整延迟
+// };
+
+/**
+ * 登录
+ */
 const handleLogin = () => {
   if (!isLogin.value) {
     router.push("/login");
@@ -118,7 +133,9 @@ const handleLogin = () => {
   }
 };
 
-// 进入后台
+/**
+ * 进入后台
+ */
 const handleManage = () => {
   // 未登录：跳转后台登录页
   if (!isLogin.value) {
@@ -134,8 +151,9 @@ const handleManage = () => {
 
 // 退出登录
 const handleExit = () => {
+
   // 在pinia中进行退出操作：清除用户信息
-  exitAction();
+  exitAction(userInfo.id);
 
   // 关闭抽屉
   dialog.value = false;
@@ -166,7 +184,7 @@ const checkAuth = (path) => {
     color: $theme-font-color !important;
   }
   // 右侧头像
-  .el-avatar {
+  .el-drawer .el-avatar {
     margin: 20px;
   }
   // 抽屉标题区

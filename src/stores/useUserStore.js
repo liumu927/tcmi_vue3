@@ -2,7 +2,11 @@
 
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { postUserLogin, getUserInfoApi } from "@/api/api.js";
+import {
+  postUserLoginApi,
+  getUserInfoApi,
+  postUserLogoutApi,
+} from "@/api/api.js";
 import router from "@/routers";
 import { useRouterStore } from "@/stores/useRouterStore";
 
@@ -26,8 +30,7 @@ export const useUserStore = defineStore(
           "/front/news/list",
           "/front/medicine/list",
           "/front/prescription/list",
-          "/front/user",
-          "/manage/login",
+          "/front/user"
         ],
       },
     });
@@ -37,13 +40,16 @@ export const useUserStore = defineStore(
       userInfo.value = value;
     };
 
-    // actions 登录时调用
+    /**
+     * actions 登录时调用
+     * @param {*} params
+     */
     const loginAction = async (params) => {
       // 调用登录接口, 返回token
       try {
-        const res = await postUserLogin(params);
+        const res = await postUserLoginApi(params);
 
-        // console.log(res);
+        console.log(res);
 
         // 判断用户是否存在
         if (!!res) {
@@ -56,15 +62,20 @@ export const useUserStore = defineStore(
           const userInfo = await getUserInfoApi();
 
           // 存储用户数据
-          changeUser(userInfo.data)
+          changeUser(userInfo.data);
 
           isLogin.value = true;
 
+          ElMessage.success(res.msg);
+
           // 页面跳转
-          if(userInfo.data.role.roleType === 302 || userInfo.data.role.roleType === 303) {
-            router.push('/');
+          if (
+            userInfo.data.role.roleType === 302 ||
+            userInfo.data.role.roleType === 303
+          ) {
+            router.push("/");
           } else {
-            router.push('/layout');
+            router.push("/layout");
           }
         }
       } catch (error) {
@@ -72,13 +83,20 @@ export const useUserStore = defineStore(
       }
     };
 
-    // actions 退出登录
-    const exitAction = async () => {
+    /**
+     * actions 退出登录
+     * @param {*} userId
+     */
+    const exitAction = async (userId) => {
       const { changeRouter } = useRouterStore();
 
+      // 清除redis中的登录数据
+      const res = await postUserLogoutApi(userId);
+
+      // 更改登录状态
       isLogin.value = false;
 
-      // 清空仓库
+      // 清空本地仓库与token
       token.value = "";
       userInfo.value = {
         id: "",
@@ -90,15 +108,14 @@ export const useUserStore = defineStore(
             "/front/news/list",
             "/front/medicine/list",
             "/front/prescription/list",
-            "/front/user",
-            "/manage/login",
+            "/front/user"
           ],
         },
       };
 
       changeRouter(false);
-
       router.push("/login");
+      ElMessage.success(res.msg);
     };
 
     return {

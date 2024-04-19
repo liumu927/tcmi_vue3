@@ -64,7 +64,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { getFrontRightsApi } from "@/api/api.js";
+import { getFrontRightsApi } from "@/api/rights.js";
 import { useUserStore } from "@/stores/useUserStore";
 import { useRouter, useRoute } from "vue-router";
 import {
@@ -145,7 +145,7 @@ const handleManage = () => {
     router.push("/manage/home");
   } else {
     // 普通/专业用户无法进入后台登录页
-    alert("对不起，您没有访问后台的权限！");
+    ElMessage.error("对不起，您没有访问后台的权限！");
   }
 };
 

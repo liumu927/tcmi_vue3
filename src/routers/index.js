@@ -44,7 +44,7 @@ const routes = [
   // 后台登录页
   {
     path: "/manage/login",
-    name: "manage_login",
+    name: "manageLogin",
     component: () => import("@/views/manage/manageLogin.vue"),
     meta: { requiresAuth: false },
   },
@@ -56,6 +56,13 @@ const routes = [
     component: LayoutView,
     meta: { requiresAuth: true },
   },
+  // 用户编辑页
+  {
+    path: "/manage/user_manage/user/edit",
+    name: 'editUser',
+    component: () => import("@/views/manage/user-manage/EditUser.vue"),
+    meta: { requiresAuth: true },
+  }
 ];
 
 // 创建路由实例
@@ -75,6 +82,7 @@ router.beforeEach((to, from, next) => {
 
     // 需要登陆,判断是否已经登录
     if (!isLogin) {
+      // 【问题】登录失效后没有明显的提示，直接报401
       // 需要登录但未登录
       next("/login");
     }

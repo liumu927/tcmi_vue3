@@ -6,7 +6,7 @@ import {
   postUserLoginApi,
   getUserInfoApi,
   postUserLogoutApi,
-} from "@/api/api.js";
+} from "@/api/user.js";
 import router from "@/routers";
 import { useRouterStore } from "@/stores/useRouterStore";
 
@@ -59,7 +59,7 @@ export const useUserStore = defineStore(
           token.value = jwtToken;
 
           // 获取用户详细信息
-          const userInfo = await getUserInfoApi();
+          const userInfo = await getUserInfoApi(userId);
 
           // 存储用户数据
           changeUser(userInfo.data);
@@ -91,7 +91,7 @@ export const useUserStore = defineStore(
       const { changeRouter } = useRouterStore();
 
       // 清除redis中的登录数据
-      const res = await postUserLogoutApi(userId);
+      await postUserLogoutApi(userId);
 
       // 更改登录状态
       isLogin.value = false;
@@ -115,7 +115,6 @@ export const useUserStore = defineStore(
 
       changeRouter(false);
       router.push("/login");
-      ElMessage.success(res.msg);
     };
 
     return {

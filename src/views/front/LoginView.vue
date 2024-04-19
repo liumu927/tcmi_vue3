@@ -47,7 +47,9 @@
       <el-link @click="goRegister" class="goRegister">没有账号？去注册</el-link
       ><br />
       <!-- 跳转注册 -->
-      <el-link @click="goHome" class="goHome">先不登录 去首页</el-link>
+      <el-link @click="goHome" class="goHome">先不登录 去首页</el-link><br>
+      <!-- 跳转后台登录 -->
+      <el-link @click="goAdminLogin" class="goAdminLogin">我是管理员</el-link>
     </el-form>
   </div>
 </template>
@@ -171,6 +173,11 @@ const goRegister = () => {
 const goHome = () => {
   router.push("/");
 };
+
+// 后台登录页
+const goAdminLogin = () => {
+  router.push({name: "manageLogin"})
+}
 </script>
 
 <style lang="scss" scoped>
@@ -188,7 +195,7 @@ const goHome = () => {
   font-family: "Courier New", Courier, monospace;
   box-sizing: border-box;
   width: 300px;
-  height: 380px;
+  // height: 380px;
   background-color: rgba($color: #fff, $alpha: 0.8);
   border-radius: 5px;
   position: fixed;
@@ -218,6 +225,11 @@ const goHome = () => {
     margin-top: 5px;
     font-size: 12px;
     color: #0000ff;
+  }
+  .goAdminLogin {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #ff0055;
   }
 }
 </style>

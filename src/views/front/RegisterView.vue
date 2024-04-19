@@ -64,7 +64,7 @@ import { reactive, ref } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
 import { loadFull } from "tsparticles";
 import { config } from "@/utils/register_config";
-import { postUserRegisterApi } from "@/api/api.js";
+import { postUserRegisterApi } from "@/api/user.js";
 
 // 粒子配置
 const particlesInit = async (engine) => {

@@ -21,10 +21,16 @@ const base = {
   updateRole: '/roles/updateRole', // 修改角色
   deleteRole: '/roles/deleteRole', // 删除角色
 
-  userList: '/users', // 用户列表
-  userInfo: '/users/userInfo', // 用户列表
+  userList: '/users/page', // 用户列表(条件分页)
+  deleteUser: '/users/delete', // 删除用户
+  addUser: '/users/add', // 管理员新增用户
+  userInfo: '/users/userInfo', // 用户详细信息
+  updateAvatar: '/users/updateAvatar', // 更新用户头像
+  updateUserDetail: '/users/update', // 更新用户基本信息
 
-  
+  getApplyList: '/apply/page', // 用户审核列表（条件分页）
+  applyApplication: '/apply/success', // 通过审核
+  refusedApplication: '/apply/fail', //不通过审核
   // ================= 前台api =================
 }
 

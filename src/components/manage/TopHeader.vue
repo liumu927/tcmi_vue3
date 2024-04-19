@@ -41,7 +41,7 @@ const handleSwitch = () => {
 // 后台：退出登录
 const handleExit = () => {
   // 在pinia中进行退出操作：清除用户信息
-  exitAction();
+  exitAction(userInfo.id);
 };
 </script>
 

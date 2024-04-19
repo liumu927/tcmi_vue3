@@ -87,7 +87,7 @@ import {
   Upload,
   Postcard,
 } from "@element-plus/icons-vue";
-import { getAllRightsApi, putRightsApi, delRightApi } from "@/api/api";
+import { getAllRightsApi, putRightsApi, delRightApi } from "@/api/rights.js";
 
 onMounted(() => {
   getRightsList();

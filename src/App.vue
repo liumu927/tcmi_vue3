@@ -1,9 +1,16 @@
 <template>
-  <!-- 路由展示：一级路由出口 -->
-  <router-view />
+<el-config-provider :locale="locale">
+    <!-- 路由展示：一级路由出口 -->
+    <router-view />
+</el-config-provider>
 </template>
 
-<script setup></script>
+<script setup>
+// 全局配置国际化：引入element + 中文包
+import { ElConfigProvider } from 'element-plus'
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+const locale = zhCn;
+</script>
 
 <style>
 * {

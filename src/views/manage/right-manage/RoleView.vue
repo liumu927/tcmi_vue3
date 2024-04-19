@@ -89,7 +89,8 @@
 
 <script setup>
 import { onMounted, ref, reactive, nextTick } from "vue";
-import { getRolesListApi, getAllRightsApi, putUpdateRoleApi, delOneRoleApi } from "@/api/api";
+import { getRolesListApi, putUpdateRoleApi, delOneRoleApi } from "@/api/role.js"
+import { getAllRightsApi  } from "@/api/rights.js";
 
 onMounted(() => {
   getRolesList();
@@ -199,7 +200,7 @@ const handleConfirm = () => {
   // validate：任一表单项被校验后触发
   // 注意，这里需要 .value ，因为没有通过点击传值过来
   updateFormRef.value.validate(async (valid, fields) => {
-    console.log(valid, fields);
+    // console.log(valid, fields);
     if (valid) {
       try {
         // 向后端发送更新请求：带参数

@@ -72,7 +72,7 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/useUserStore";
 import {
   getManageRightsApi
-} from "@/api/api";
+} from "@/api/rights";
 
 // 当前路由对象
 const route = useRoute();
@@ -92,7 +92,8 @@ const getManageRights = async () => {
     datalist.value = res.data;
     // console.log(res)
   } catch (error) {
-    console.log(error);
+    // 登录已过期
+    ElNotification.error(error.message);
   }
 };
 

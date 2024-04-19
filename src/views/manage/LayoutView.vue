@@ -1,8 +1,14 @@
 <template>
   <el-container style="height: 100vh">
-    <SideMenu></SideMenu>
+    <el-aside width="200px">
+      <SideMenu />
+    </el-aside>
+
     <el-container direction="vertical">
-      <TopHeader></TopHeader>
+      <el-header>
+        <TopHeader />
+      </el-header>
+
       <el-main>
         <el-scrollbar>
           <!-- 二级路由出口 -->
@@ -18,4 +24,9 @@ import SideMenu from "@/components/manage/SideMenu.vue";
 import TopHeader from "@/components/manage/TopHeader.vue";
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.el-aside {
+  background-color: #dff7dc;
+}
+</style>

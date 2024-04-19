@@ -1,5 +1,5 @@
 <template>
-  <h2>客服管理</h2>
+  <h2>在线客服</h2>
 </template>
 
 <script setup></script>

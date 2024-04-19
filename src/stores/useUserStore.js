@@ -9,6 +9,7 @@ import {
 } from "@/api/user.js";
 import router from "@/routers";
 import { useRouterStore } from "@/stores/useRouterStore";
+import { useTokenStore } from "@/stores/useTokenStore";
 
 export const useUserStore = defineStore(
   "user",
@@ -16,8 +17,7 @@ export const useUserStore = defineStore(
     // 是否登录
     const isLogin = ref(false);
 
-    // token
-    const token = ref("");
+    const { token, setToken, removeToken } = useTokenStore();
 
     // 用户信息
     const userInfo = ref({
@@ -30,7 +30,7 @@ export const useUserStore = defineStore(
           "/front/news/list",
           "/front/medicine/list",
           "/front/prescription/list",
-          "/front/user"
+          "/front/user",
         ],
       },
     });
@@ -55,8 +55,8 @@ export const useUserStore = defineStore(
         if (!!res) {
           const { id: userId, token: jwtToken } = res.data;
 
-          // 存储token
-          token.value = jwtToken;
+          // 存到Token仓库
+          setToken(jwtToken);
 
           // 获取用户详细信息
           const userInfo = await getUserInfoApi(userId);
@@ -96,8 +96,8 @@ export const useUserStore = defineStore(
       // 更改登录状态
       isLogin.value = false;
 
-      // 清空本地仓库与token
-      token.value = "";
+      // 清空本地仓库
+      removeToken(token);
       userInfo.value = {
         id: "",
         username: "",
@@ -108,7 +108,7 @@ export const useUserStore = defineStore(
             "/front/news/list",
             "/front/medicine/list",
             "/front/prescription/list",
-            "/front/user"
+            "/front/user",
           ],
         },
       };
@@ -118,7 +118,6 @@ export const useUserStore = defineStore(
     };
 
     return {
-      token,
       userInfo,
       isLogin,
       changeUser,

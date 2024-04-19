@@ -14,12 +14,12 @@
 .el-header {
   background-color: $theme-color;
   color: $theme-font-color;
-  font-size: 32px;
+  font-size: 20px;
   font-weight: bold;
   font-family: "楷体";
   display: flex;
+  padding: 10px;
   align-items: center;
-  padding: 20px;
   position: relative; 
 
   & div:last-of-type {

@@ -28,7 +28,7 @@ const pageSize = ref(10);
 // 可选的每页多少条数据
 const pageSizes = ref([5, 10, 15, 20]);
 const small = ref(true);
-const background = ref(false);
+const background = ref(true);
 
 // 接收父组件传过来的值
 const props = defineProps({

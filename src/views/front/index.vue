@@ -3,9 +3,9 @@
 <template>
   <!-- 轮播图 -->
   <div id="flash">
-    <el-carousel :interval="5000">
-      <el-carousel-item v-for="(item, index) in coverData" :key="index">
-        <img :src="item.image" />
+    <el-carousel :interval="5000" type="card" height="250px">
+      <el-carousel-item v-for="(item, coverId) in coverData" :key="coverId">
+        <img :src="item.coverImg" />
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -103,7 +103,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getCoverListApi } from "@/api/common.js";
 
 const coverData = ref([]);
 const medicineTypeList = ref([]);
@@ -111,13 +112,30 @@ const prescriptionTypeList = ref([]);
 const categoryData = ref([]);
 const newsData = ref([]);
 
-// 获取轮播图
+onMounted(() => {
+  getCoverList();
+});
+
+/**
+ * 获取轮播图列表
+ */
+const getCoverList = async () => {
+  try {
+    var res = await getCoverListApi();
+
+    coverData.value = res.data;
+
+    // console.log(coverData.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // 获取药材分类
-const getMedicineType = () => {}
+const getMedicineType = () => {};
 
 // 获取方剂分类
-const getPrescriptionType = () => {}
+const getPrescriptionType = () => {};
 
 // 按分类搜索并返回列表
 
@@ -127,16 +145,20 @@ const getPrescriptionType = () => {}
 <style lang="scss" scoped>
 // 轮播图容器
 #flash {
-  width: 90%;
+  width: 80%;
+  height: 250px;
   margin: 0 auto;
-  border: 1px solid red;
+  // overflow: hidden;
 
   img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
+    border-radius: 20px;
   }
 }
 
+// 主容器
 #main {
   width: 100%;
   height: auto;

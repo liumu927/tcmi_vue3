@@ -1,5 +1,5 @@
 <template>
-  <h2>新闻分类</h2>
+  <div>文章分类</div>
 </template>
 
 <script setup></script>

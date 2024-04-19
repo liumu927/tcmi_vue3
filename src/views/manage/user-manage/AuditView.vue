@@ -14,10 +14,10 @@
     stripe
     style="width: 100%"
     row-key="id"
-    height="380"
+    max-height="380"
   >
     <el-table-column prop="username" label="用户名" width="100" />
-    <el-table-column label="头像">
+    <el-table-column label="头像" style="width: 220px">
       <template #default="scope">
         <el-avatar :size="40" :src="scope.row.avatar" @error="errorHandler">
           <img
@@ -34,10 +34,10 @@
     <el-table-column prop="email" label="邮箱号" />
     <el-table-column prop="status" :formatter="getStateMap" label="审核状态" />
     <el-table-column prop="updatedBy" label="审核人" />
-    <el-table-column prop="updatedAt" label="最后操作时间" />
+    <el-table-column prop="updatedAt" label="最后操作时间" width="150" />
 
     <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right" fixed="right">
+    <el-table-column label="操作" align="right">
       <!-- 操作按钮 -->
       <template #default="scope">
         <el-button size="small" type="warning" @click="getDetail(scope.row)"
@@ -142,7 +142,7 @@ const applyFormRef = ref();
 const applyFormData = ref();
 
 // 【问题】为什么在这里获取不到更新的值
-console.log(tableData.value);
+// console.log(tableData.value);
 
 onMounted(() => {
   pageQuery();
@@ -193,9 +193,11 @@ const handleConfirm = async () => {
  */
 const handleRefused = async () => {
   try {
-    await refusedApplicationApi(applyFormData.value.id);
+    const res = await refusedApplicationApi(applyFormData.value.id);
     pageQuery();
     dialogVisible.value = false;
+
+    ElMessage.success(res.msg);
   } catch (error) {
     console.log(error);
   }
@@ -285,8 +287,9 @@ const handleDelete = async (item) => {
   }
 }
 
+// 表单
 .el-form-item {
-  width: 400px;
+  width: 500px;
 
   :deep(.el-form-item__label) {
     width: 75px;

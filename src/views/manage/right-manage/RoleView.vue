@@ -10,7 +10,7 @@
         <!-- 角色对应的权限列表 -->
         <el-popover
           popper-class="el_popover_class"
-          placement="right-start"
+          placement="right"
           title="权限详情"
           :width="200"
           trigger="hover"
@@ -89,8 +89,12 @@
 
 <script setup>
 import { onMounted, ref, reactive, nextTick } from "vue";
-import { getRolesListApi, putUpdateRoleApi, delOneRoleApi } from "@/api/role.js"
-import { getAllRightsApi  } from "@/api/rights.js";
+import {
+  getRolesListApi,
+  putUpdateRoleApi,
+  delOneRoleApi,
+} from "@/api/role.js";
+import { getAllRightsApi } from "@/api/rights.js";
 
 onMounted(() => {
   getRolesList();
@@ -145,7 +149,6 @@ const getRightsList = async () => {
 
     var allRights = await getAllRightsApi();
     rightListAll.value = allRights.data;
-
   } catch (error) {
     console.log(error);
   }
@@ -205,10 +208,12 @@ const handleConfirm = () => {
       try {
         // 向后端发送更新请求：带参数
         // 若节点可用被选中 (show-checkbox 为 true), getCheckedKeys将返回当前选中节点 key 的数组
-        await putUpdateRoleApi(currentItem.value.roleType, {
+        const res = await putUpdateRoleApi(currentItem.value.roleType, {
           roleName: updateForm.roleName,
           rights: JSON.stringify(treeRef.value.getCheckedKeys()),
         });
+
+        ElMessage.success(res.msg);
 
         // 关闭对话框
         dialogVisible.value = false;
@@ -230,7 +235,9 @@ const handleDelete = async (item) => {
 
   const { roleType } = item;
 
-  await delOneRoleApi(roleType);
+  const res = await delOneRoleApi(roleType);
+
+  ElMessage.success(res.msg);
 
   // 重新取一遍数据，渲染页面
   await getRolesList();

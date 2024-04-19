@@ -49,7 +49,6 @@
 
 <script setup>
 import { useUserStore } from "@/stores/useUserStore";
-import { useRouter } from "vue-router";
 import { reactive, ref } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
 import { loadFull } from "tsparticles";
@@ -65,8 +64,6 @@ const particlesLoaded = async (container) => {
 
 // pinia库
 const { loginAction } = useUserStore();
-
-const router = useRouter();
 // ref获取表单对象
 const ruleFormRef = ref();
 const ruleForm = reactive({

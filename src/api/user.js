@@ -33,7 +33,7 @@ export const postAddUserApi = (params) => {
   return req.post(base.addUser, params);
 };
 
-// 获取用户详细信息
+// 根据id获取用户详细信息
 export const getUserInfoApi = (userId) => {
   return req.get(`${base.userInfo}?userId=${userId}`);
 };
@@ -54,11 +54,11 @@ export const getApplyListApi= (params) => {
 }
 
 // 通过审核
-export const applyApplicationApi = (params) => {
-  return req.post(base.applyApplication, params);
+export const applyApplicationApi = (userId) => {
+  return req.post(`${base.applyApplication}?id=${userId}`);
 };
 
 //不通过审核
-export const refusedApplicationApi = (params) => {
-  return req.post(base.refusedApplication, params);
+export const refusedApplicationApi = (userId) => {
+  return req.post(`${base.refusedApplication}?id=${userId}`);
 };

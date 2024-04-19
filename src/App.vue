@@ -20,13 +20,17 @@ const locale = zhCn;
   user-select: none;
 }
 
-/* 解决 el popover 组件增加滚动条 */
+/* 解决 el-popover 组件增加滚动条 */
 .el_popover_class {
-  max-height: 500px !important;
+  max-height: 400px !important;
   overflow-y: auto !important;
 }
-/* 消除滚动条样式 */
+/* 消除el-popover滚动条样式 */
 .el_popover_class::-webkit-scrollbar {
+    display: none !important;
+}
+/* 消除el-side滚动条样式 */
+.el-aside::-webkit-scrollbar {
     display: none !important;
 }
 </style>

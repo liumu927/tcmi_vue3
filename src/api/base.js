@@ -9,7 +9,11 @@ const base = {
   register: '/users/register', // 用户注册接口
   login: '/users/login', // 用户登录接口
   logout: '/users/logout', // 退出登录
-  
+  getCoverList: '/cover/list', // 轮播图列表
+  updateCover: '/cover/update', // 更新轮播图
+  deleteCover: '/cover/delete', // 删除封面图
+  addCover: '/cover/add', // 新增封面图
+
 
   // ================= 后台api =================
   allRights: '/rights/all', // 获取全部权限
@@ -31,6 +35,8 @@ const base = {
   getApplyList: '/apply/page', // 用户审核列表（条件分页）
   applyApplication: '/apply/success', // 通过审核
   refusedApplication: '/apply/fail', //不通过审核
+
+
   // ================= 前台api =================
 }
 

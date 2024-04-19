@@ -87,7 +87,7 @@ import {
   Upload,
   Postcard,
 } from "@element-plus/icons-vue";
-import { getAllRightsApi, putRightsApi, delRightApi } from "@/api/rights.js";
+import { getAllRightsApi, getManageRightsApi,putRightsApi, delRightApi } from "@/api/rights.js";
 
 onMounted(() => {
   getRightsList();
@@ -185,13 +185,16 @@ const handleConfirm = () => {
     if (valid) {
       try {
         // 向后端发送更新请求：带参数
-        await putRightsApi(currentItem.value.id, updateForm);
+        const res = await putRightsApi(currentItem.value.id, updateForm);
+        ElMessage.success(res.msg);
 
         // 关闭对话框
         dialogVisible.value = false;
 
         // 重新渲染页面
         await getRightsList();
+
+        // 【待优化】更新数据后，侧边栏没有同步
       } catch (error) {
         console.log(error);
       }
@@ -207,8 +210,9 @@ const handleDelete = async (item) => {
   const { id } = item;
 
   try {
-    await delRightApi(id);
-
+  const res = await delRightApi(id);
+  ElMessage.success(res.msg);
+  
     // 重新取一遍数据，渲染页面
     await getRightsList();
   } catch (error) {

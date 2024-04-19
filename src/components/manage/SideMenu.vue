@@ -1,7 +1,7 @@
 <template>
-  <el-aside width="200px">
+  <div class="aside">
+    <div class="logo">百 &nbsp;&nbsp; 草</div>
     <el-scrollbar>
-      <div class="logo">百 &nbsp;&nbsp; 草</div>
       <el-menu
         :default-active="route.fullPath"
         class="el-menu-vertical-demo"
@@ -45,7 +45,7 @@
         </template>
       </el-menu>
     </el-scrollbar>
-  </el-aside>
+  </div>
 </template>
 
 <script setup>
@@ -70,9 +70,7 @@ import {
 } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/useUserStore";
-import {
-  getManageRightsApi
-} from "@/api/rights";
+import { getManageRightsApi } from "@/api/rights";
 
 // 当前路由对象
 const route = useRoute();
@@ -125,20 +123,22 @@ const checkAuth = (path) => {
 <style lang="scss" scoped>
 @import "@/assets/css/var.scss";
 
-.logo {
-  width: 200px;
-  height: 60px;
-  background-color: $second-color;
-  color: $theme-color;
-  font-size: 32px;
-  font-weight: bold;
-  font-family: "楷体";
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: sticky;
-  top: 0px;
-  left: 0px;
-  z-index: 999;
+.aside {
+  .logo {
+    width: 200px;
+    height: 60px;
+    background-color: $second-color;
+    color: $theme-color;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "楷体";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // 设置标题置顶
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
 }
 </style>

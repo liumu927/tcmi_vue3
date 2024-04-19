@@ -2,16 +2,17 @@
 
 import axios from "axios";
 import base from "./base";
-import { useUserStore } from "@/stores/useUserStore";
+// import { useUserStore } from "@/stores/useUserStore";
+import { useTokenStore } from "@/stores/useTokenStore";
 import router from "@/routers";
 
 
 const req = axios.create({
   baseURL: base.host,
   timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  // headers: {
+  //   'Content-Type': 'application/json'
+  // }
 });
 
 /**
@@ -19,8 +20,9 @@ const req = axios.create({
  * @returns 
  */
 const getLocalToken = () => {
-  const userStore = useUserStore();
-  const token = userStore.token;
+
+  const tokenStore = useTokenStore();
+  const token = tokenStore.token;
 
   return token;
 };
@@ -34,7 +36,6 @@ req.interceptors.request.use(
     if (token) {
       // Bearer是一种HTTP认证方案
       config.headers.Authorization = token;
-      // console.log(config);
     }
 
     return config;
@@ -63,15 +64,19 @@ req.interceptors.response.use(
     }
   },
   (error) => {
+
     // 处理登录过期的逻辑
     if (error.response.status === 401) {
-      ElNotification.error(error.response.statusText);
+      ElNotification.error(error.response.statusText+"登录过期[请重新登录]");
 
       // 清除pinia和本地存储的信息
+      const token =  getLocalToken();
+      removeToken(token);
+
       localStorage.clear();
 
-      // 跳转回管理员登录页
-      router.push("/manage/login")
+      // 跳转
+      router.push("/")
 
       //【待优化】token失效时，存在多个请求，会导致多次执行刷新token的接口
     }

@@ -1,12 +1,14 @@
 <template>
-  <el-header>
-    <div class="title">中 医 药 信 息 管 理 系 统 后 台</div>
+  <div class="header">
+    <p class="title">中 医 药 信 息 管 理 系 统 后 台</p>
     <div>
       <p class="tip">欢迎 {{ userInfo.role.roleName }} 回来 🤗</p>
       <el-dropdown>
         <div class="el-dropdown-link">
           <!-- 头像框 -->
-          <el-avatar :size="38" :src="circleUrl" />
+          <el-avatar :size="35" :src="userInfo.avatar">
+            <img :src="circleUrl">
+          </el-avatar>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -21,7 +23,7 @@
         </template>
       </el-dropdown>
     </div>
-  </el-header>
+  </div>
 </template>
 
 <script setup>
@@ -48,7 +50,7 @@ const handleExit = () => {
 <style lang="scss" scoped>
 @import "@/assets/css/var.scss";
 
-.el-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,19 +59,27 @@ const handleExit = () => {
   padding: 0 20px;
   font-weight: bold;
   font-size: 16px;
+
   .title {
     float: left;
   }
   .tip {
-    line-height: 38px;
+    line-height: 50px;
     float: left;
     margin-right: 10px;
   }
-  // 头像框
-  .el-dropdown-link {
-    cursor: pointer;
-    // 去除黑框
-    outline: none;
+
+  .el-dropdown {
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+    // 头像框
+    // &.el-dropdown-link {
+    //   cursor: pointer;
+    //   // 去除黑框
+    //   outline: none;
+    // }
   }
 }
 </style>

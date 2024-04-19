@@ -17,7 +17,7 @@
     stripe
     style="width: 100%"
     row-key="id"
-    height="380"
+    max-height="380"
   >
     <el-table-column prop="username" label="用户名" width="100" />
     <el-table-column label="头像">
@@ -157,7 +157,7 @@ const addForm = reactive({
   username: "",
   email: "",
   avatar: "",
-  userRole: 300,
+  userRole: null,
 });
 // 存放角色列表
 const roleList = ref([]);
@@ -337,6 +337,11 @@ const rules = reactive({
 
   .el-button {
     margin-left: 20px;
+  }
+
+  // 新增用户按钮，伪类选择器
+  & button:last-child {
+    margin-left: 573px;
   }
 }
 </style>

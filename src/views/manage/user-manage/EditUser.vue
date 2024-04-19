@@ -78,11 +78,11 @@ import { getUserInfoApi, updateUserDetailApi } from "@/api/user";
 import { getRolesListApi } from "@/api/role";
 import { emailReg } from "@/utils/regexp.js";
 import TopBar from "@/components/common/TopBar.vue";
-import { useUserStore } from "@/stores/useUserStore";
+import { useTokenStore } from "@/stores/useTokenStore";
 
 const router = useRouter();
 const route = useRoute();
-const { token } = useUserStore();
+const { token } = useTokenStore();
 // 控制该表单内组件的尺寸
 const formSize = ref("default");
 
@@ -139,7 +139,7 @@ const getRolesList = async () => {
 };
 
 /**
- * 头像上传成功的回调，调用更新头像接口
+ * 头像上传成功的回调
  * @param {*} response
  * @param {*} uploadFile
  */
@@ -155,14 +155,10 @@ const handleAvatarSuccess = async (response, uploadFile) => {
 const updateDetail = () => {
   ruleFormRef.value.validate(async (valid, fields) => {
 
-    // console.log("111", valid);
-
     if (valid) {
       // 更新用户基础信息
       const res = await updateUserDetailApi(updateForm);
       ElMessage.success(res.msg);
-
-      // console.log("222", valid);
 
       // 跳转回用户列表页
       router.push({ name: "user" });

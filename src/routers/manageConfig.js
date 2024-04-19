@@ -44,7 +44,7 @@ const routes = [
     component: () => import("@/views/manage/medicine-manage/CategoryView.vue"),
   },
   {
-    // 药材管理-信息
+    // 药材管理-列表
     path: "/manage/medicine_manage/message",
     name: "message",
     component: () => import("@/views/manage/medicine-manage/MessageView.vue"),
@@ -53,13 +53,27 @@ const routes = [
     // 方剂管理-分类
     path: "/manage/prescription_manage/category",
     name: "pre_category",
-    component: () => import("@/views/manage/prescription-manage/PreCategoryView.vue"),
+    component: () =>
+      import("@/views/manage/prescription-manage/PreCategoryView.vue"),
   },
   {
-    // 方剂管理-信息
+    // 方剂管理-列表
     path: "/manage/prescription_manage/message",
     name: "pre_message",
-    component: () => import("@/views/manage/prescription-manage/PreMessageView.vue"),
+    component: () =>
+      import("@/views/manage/prescription-manage/PreMessageView.vue"),
+  },
+  {
+    // 资讯管理-分类
+    path: "/manage/article_manage/category",
+    name: "article_category",
+    component: () => import("@/views/manage/article-manage/CategoryView.vue"),
+  },
+  {
+    // 资讯管理-列表
+    path: "/manage/article_manage/articles",
+    name: "article_message",
+    component: () => import("@/views/manage/article-manage/ArticleView.vue"),
   },
   {
     // 系统管理-轮播图
@@ -68,16 +82,16 @@ const routes = [
     component: () => import("@/views/manage/system-manage/CarouselView.vue"),
   },
   {
-    // 系统管理-新闻资讯
-    path: "/manage/system_manage/news",
-    name: "news",
-    component: () => import("@/views/manage/system-manage/NewsView.vue"),
+    // 系统管理-公告
+    path: "/manage/system_manage/notices",
+    name: "notices",
+    component: () => import("@/views/manage/system-manage/NoticesView.vue"),
   },
   {
     // 系统管理-在线咨询
-    path: "/manage/system_manage/service",
-    name: "service",
-    component: () => import("@/views/manage/system-manage/ServiceView.vue"),
+    path: "/manage/system_manage/online_chat",
+    name: "online_chat",
+    component: () => import("@/views/manage/system-manage/OnlineChat.vue"),
   },
   {
     // 数据管理

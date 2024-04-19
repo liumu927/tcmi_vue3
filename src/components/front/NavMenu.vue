@@ -13,13 +13,18 @@
       <!-- 含多级菜单 -->
       <el-menu-item v-if="data.children.length && checkAuth(data.path)">
         <!-- 头像框 -->
-        <el-avatar :size="38" :src="circleUrl" @click="dialog = true" />
+        <el-avatar :size="35" :src="userInfo.avatar" @click="handleOpenDrawer">
+          <img :src="circleUrl" />
+        </el-avatar>
         <!-- 抽屉显示子菜单 -->
         <el-drawer v-model="dialog" direction="rtl" size="40%">
           <!-- 自定义抽屉标题 -->
           <template #header="{ titleId, titleClass }">
             <div>
-              <el-avatar :src="circleUrl" />
+              <!-- 头像框 -->
+              <el-avatar :size="35" :src="userInfo.avatar">
+                <img :src="circleUrl" />
+              </el-avatar>
               <p :id="titleId" :class="titleClass">
                 <template v-if="!isLogin">尚未登录的拾草客</template>
                 <template v-else>
@@ -110,17 +115,17 @@ const getFrontRights = async () => {
   }
 };
 
-// 用一个短暂的延迟切换对话框【备用，目前不设置该项也可以】
-// const handleOpenDrawer = (key, keyPath) => {
-//   console.log(key, keyPath);
-//   setTimeout(() => {
-//     // 使用 Promise 来处理延迟更新
-//     new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
-//       dialog.value = !dialog.value;
-//       console.log(33333, dialog.value);
-//     });
-//   }, 10); // 根据需要调整延迟
-// };
+// 用一个短暂的延迟切换对话框
+const handleOpenDrawer = (key, keyPath) => {
+  console.log(key, keyPath);
+  setTimeout(() => {
+    // 使用 Promise 来处理延迟更新
+    new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
+      dialog.value = !dialog.value;
+      console.log(33333, dialog.value);
+    });
+  }, 10); // 根据需要调整延迟
+};
 
 /**
  * 登录
@@ -151,12 +156,8 @@ const handleManage = () => {
 
 // 退出登录
 const handleExit = () => {
-
   // 在pinia中进行退出操作：清除用户信息
   exitAction(userInfo.id);
-
-  // 关闭抽屉
-  dialog.value = false;
 };
 
 // 根据身份对应权限渲染列表

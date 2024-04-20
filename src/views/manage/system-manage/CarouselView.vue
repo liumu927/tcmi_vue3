@@ -229,17 +229,7 @@ const handleConfirm = () => {
     // console.log(valid, fields);
 
     if (valid) {
-      // 发起请求
-      try {
-        const res = await putUpdateCoverApi(updateForm);
-        ElMessage.success(res.msg);
-
-        // 控制对话框显示
-        dialogVisible.value = false;
-        await getCoverList();
-      } catch (error) {
-        console.log(error);
-      }
+     
     } else {
     }
   });

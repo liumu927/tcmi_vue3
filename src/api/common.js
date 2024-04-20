@@ -10,7 +10,7 @@ import base from "./base.js";
 
 // 获取轮播图列表
 export const getCoverListApi = () => {
-  return req.get(base.getCoverList);
+  return req.get(base.coverList);
 };
 
 // 更新轮播图

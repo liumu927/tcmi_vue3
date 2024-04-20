@@ -10,7 +10,7 @@
       v-model:current-page="pageNum"
       :small="small"
       :background="background"
-      layout="jumper, prev, pager, next, sizes, total"
+      layout="total, sizes, prev, pager, next, jumper"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />

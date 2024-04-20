@@ -50,7 +50,7 @@ export const updateUserDetailApi = (params) => {
 
 // 用户审核列表（条件分页）
 export const getApplyListApi= (params) => {
-  return req.get(base.getApplyList, {params: params});
+  return req.get(base.applyList, {params: params});
 }
 
 // 通过审核

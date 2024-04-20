@@ -2,42 +2,76 @@
 
 const base = {
   // host: 'http://localhost:5000/api',  // 域名
-  host: '/api',  // 域名
+  host: "/api", // 域名
 
-  // ================= 公共api =================
-  frontRights: '/rights/front', // 前台权限
-  register: '/users/register', // 用户注册接口
-  login: '/users/login', // 用户登录接口
-  logout: '/users/logout', // 退出登录
-  getCoverList: '/cover/list', // 轮播图列表
-  updateCover: '/cover/update', // 更新轮播图
-  deleteCover: '/cover/delete', // 删除封面图
-  addCover: '/cover/add', // 新增封面图
+  // ================================== 公共api ==================================
+  frontRights: "/rights/front", // 前台权限
 
+  register: "/users/register", // 用户注册接口
+  login: "/users/login", // 用户登录接口
+  logout: "/users/logout", // 退出登录
 
-  // ================= 后台api =================
-  allRights: '/rights/all', // 获取全部权限
-  manageRights: '/rights/manage', // 后台权限 
-  updateRight: '/rights/updateRight', // 修改权限
-  deleteRight: 'rights/deleteRight', // 删除权限
+  coverList: "/cover/list", // 轮播图列表
 
-  rolesList: '/roles', // 角色列表
-  updateRole: '/roles/updateRole', // 修改角色
-  deleteRole: '/roles/deleteRole', // 删除角色
+  articleCategoryList: "/article/category", // 资讯分类列表
+  articleList: "/articles/page", // 资讯列表(条件分页)
+  articleDetail: "/articles/detail", // 获取单个资讯的详情
 
-  userList: '/users/page', // 用户列表(条件分页)
-  deleteUser: '/users/delete', // 删除用户
-  addUser: '/users/add', // 管理员新增用户
-  userInfo: '/users/userInfo', // 用户详细信息
-  updateAvatar: '/users/updateAvatar', // 更新用户头像
-  updateUserDetail: '/users/update', // 更新用户基本信息
+  medicineCategoryList: "/medicine/category/page", // 药材分类列表(条件分页)
+  medicineList: "/medicine/page", // 药材列表(条件分页)
+  medicineDetail: "/medicine/detail", // 获取单个药材的详情
 
-  getApplyList: '/apply/page', // 用户审核列表（条件分页）
-  applyApplication: '/apply/success', // 通过审核
-  refusedApplication: '/apply/fail', //不通过审核
+  priscriptionCategoryList: "/prescription/category/page", // 方剂分类列表(条件分页)
+  priscriptionList: "/prescription/page", // 方剂列表(条件分页)
+  priscriptionDetail: "/prescription/detail", // 获取单个方剂详情(包括药材组成)
 
+  // ================================== 后台api ==================================
+  allRights: "/rights/all", // 获取全部权限
+  manageRights: "/rights/manage", // 后台权限
+  updateRight: "/rights/updateRight", // 修改权限
+  deleteRight: "rights/deleteRight", // 删除权限
 
-  // ================= 前台api =================
-}
+  rolesList: "/roles", // 角色列表
+  updateRole: "/roles/updateRole", // 修改角色
+  deleteRole: "/roles/deleteRole", // 删除角色
 
-export default base
+  userList: "/users/page", // 用户列表(条件分页)
+  deleteUser: "/users/delete", // 删除用户
+  addUser: "/users/add", // 管理员新增用户
+  userInfo: "/users/userInfo", // 用户详细信息
+  updateAvatar: "/users/updateAvatar", // 更新用户头像
+  updateUserDetail: "/users/update", // 更新用户基本信息
+
+  applyList: "/apply/page", // 用户审核列表（条件分页）
+  applyApplication: "/apply/success", // 通过审核
+  refusedApplication: "/apply/fail", //不通过审核
+
+  updateCover: "/cover/update", // 更新轮播图
+  deleteCover: "/cover/delete", // 删除封面图
+  addCover: "/cover/add", // 新增封面图
+
+  addArticleCategory: "/article/category/add", // 新增资讯分类
+  updArticleCategory: "/article/category/update", // 更新资讯分类
+  delArticleCategory: "/article/category/delete", // 删除资讯分类
+  addArticle: "/articles/add", // 新增资讯
+  updArticle: "/articles/update", // 更新资讯
+  delArticle: "/articles/delete", // 删除资讯
+
+  addMedicineCategory: "/medicine/category/add", // 新增药材分类
+  updMedicineCategory: "/medicine/category/update", // 更新药材分类
+  delMedicineCategory: "/medicine/category/delete", // 删除药材分类
+  updMedicine: "/medicine/add", // 新增药材
+  addMedicine: "/medicine/update", // 更新药材
+  delMedicine: "/medicine/delete", // 删除药材
+
+  addPriscriptionCategory: "/prescription/category/add", // 新增方剂分类
+  updPriscriptionCategory: "/prescription/category/update", // 更新方剂分类
+  delPriscriptionCategory: "/prescription/category/delete", // 删除方剂分类
+  addPriscription: "/prescription/add", // 新增方剂(对应药材组成)
+  updPriscription: "/prescription/update", // 更新方剂
+  delPriscription: "/prescription/delete", // 删除方剂
+
+  // ================================== 前台api ==================================
+};
+
+export default base;

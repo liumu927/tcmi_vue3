@@ -6,7 +6,7 @@
       placeholder="请输入用户名"
     />
     <el-button type="success" @click="pageQuery">搜索</el-button>
-    <el-button type="success" @click="handleAdd" :icon="Plus"
+    <el-button type="success" @click="dialog = true" :icon="Plus"
       >新增用户</el-button
     >
   </div>
@@ -17,7 +17,7 @@
     stripe
     style="width: 100%"
     row-key="id"
-    max-height="380"
+    max-height="400"
   >
     <el-table-column prop="username" label="用户名" width="100" />
     <el-table-column label="头像">
@@ -190,14 +190,8 @@ const handlePageNum = (pageNumVal) => {
  * 获取用户列表
  */
 const pageQuery = async () => {
-  // 封装请求分页时的参数
-  const params = {
-    pageNum: postForm.pageNum,
-    pageSize: postForm.pageSize,
-    username: postForm.username,
-  };
   try {
-    var res = await getUserListByPageQueryApi(params);
+    var res = await getUserListByPageQueryApi(postForm);
 
     tableData.value = res.data.items;
     total.value = res.data.total;
@@ -210,14 +204,6 @@ const pageQuery = async () => {
  * 图片加载失败时的回退行为
  */
 const errorHandler = () => true;
-
-/**
- * 触发新增面板
- */
-const handleAdd = () => {
-  dialog.value = true;
-  getRolesList();
-};
 
 /**
  *  获取角色列表
@@ -254,7 +240,7 @@ const addUser = async () => {
     // 重新请求用户列表
     await getRolesList();
   } catch (error) {
-    console.log(error);
+    console.log("🚀 ~ addUser ~ error:", error)
   }
   dialog.value = false;
 };

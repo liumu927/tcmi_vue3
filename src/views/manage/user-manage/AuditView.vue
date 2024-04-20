@@ -14,7 +14,7 @@
     stripe
     style="width: 100%"
     row-key="id"
-    max-height="380"
+    max-height="400"
   >
     <el-table-column prop="username" label="用户名" width="100" />
     <el-table-column label="头像" style="width: 220px">

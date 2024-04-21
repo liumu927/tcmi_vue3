@@ -4,6 +4,7 @@ import axios from "axios";
 import base from "./base";
 import { useTokenStore } from "@/stores/useTokenStore";
 import router from "@/routers";
+import { ElMessage } from "element-plus";
 
 const req = axios.create({
   baseURL: base.host,
@@ -23,18 +24,11 @@ const getLocalToken = () => {
   return token;
 };
 
-/**
- * 移除本地token
- */
-const removeLocalToken = () => {
-  const { removeToken } = useTokenStore();
-
-  removeToken();
-};
-
 // 请求拦截
 req.interceptors.request.use(
   (config) => {
+    // 在发送请求之前做些什么
+
     const token = getLocalToken();
 
     // 如果Token存在，将其添加到请求头中
@@ -45,16 +39,19 @@ req.interceptors.request.use(
 
     return config;
   },
-  (err) => {
-    console.log(err);
-    return Promise.reject(err);
+  (error) => {
+    // 对请求错误做些什么
+    console.log("🚀 ~ error:", error)
+   
+    return Promise.reject(error);
   }
 );
 
 // 响应拦截
 req.interceptors.response.use(
   (res) => {
-    console.log(res);
+    // 对响应数据做点什么
+    console.log("🚀 ~ res:", res)
 
     const isSuccess = res.data.code === 200;
 
@@ -69,79 +66,22 @@ req.interceptors.response.use(
     }
   },
   (error) => {
+    console.log("🚀 ~ error:", error)
+    
     // 处理登录过期的逻辑
-    if (error.response && error.response.status === 401) {
-      const originalRequest = error.config;
+    // if (error.response || error.response.status === 401) { // 根据后端设置的状态码
+    if (error.response) { // 根据后端设置的状态码
 
-      // 判断是否正在刷新 Token
-      if (!isRefreshing) {
-        isRefreshing = true;
+      // 清除过期 token
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
 
-        // 发送刷新 Token 的请求
-        refreshToken()
-          .then((response) => {
-            const { token } = response.data;
-
-            // 更新本地存储的 Token
-            useTokenStore().setToken(token);
-
-            // 重新发送队列中的所有请求
-            reSendQueue();
-
-            // 清空队列
-            refreshQueue = [];
-          })
-          .catch(() => {
-            // 刷新 Token 失败，需要重新登录
-            redirectToLogin();
-          })
-          .finally(() => {
-            isRefreshing = false;
-          });
-      }
-
-      // 将当前请求放入队列中
-      return addToQueue(originalRequest);
+      // 跳转到登录页
+      router.push('/login');
     }
 
     return Promise.reject(error);
   }
 );
-
-// 刷新 Token 的函数
-function refreshToken() {
-  // 实现刷新 Token 的逻辑，返回一个 Promise
-}
-
-// 重新发送队列中的请求
-function reSendQueue() {
-  refreshQueue.forEach((request) => {
-    req(request)
-      .then((response) => {
-        request.resolve(response);
-      })
-      .catch((error) => {
-        request.reject(error);
-      });
-  });
-}
-
-// 将请求加入队列
-function addToQueue(request) {
-  return new Promise((resolve, reject) => {
-    refreshQueue.push({ request, resolve, reject });
-  });
-}
-
-// 重定向到登录页面
-function redirectToLogin() {
-  ElNotification.error("登录过期[请重新登录]");
-
-  // 清除pinia和本地存储的信息
-  localStorage.clear();
-
-  // 跳转
-  router.push("/");
-}
 
 export default req;

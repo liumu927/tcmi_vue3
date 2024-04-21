@@ -80,7 +80,7 @@ const routes = [
   // 资讯编辑页
   {
     path: "/manage/article_manage/articles/edit",
-    name: "editArticlee",
+    name: "editArticle",
     component: () => import("@/views/manage/article-manage/EditArticle.vue"),
     meta: { requiresAuth: true },
   },

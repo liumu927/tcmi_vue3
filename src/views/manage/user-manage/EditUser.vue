@@ -11,7 +11,7 @@
       status-icon
       style="font-weight: bold; width: 60%"
     >
-      <el-form-item label="用户头像" prop="evidence">
+      <el-form-item label="用户头像" prop="avatar">
         <!-- 
           auto-upload:设置是否自动上传
           action:设置服务器接口路径
@@ -56,11 +56,7 @@
       </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
-        <el-button
-          type="primary"
-          @click="updateDetail()"
-          id="submit"
-        >
+        <el-button type="primary" @click="updateDetail()" id="submit">
           提交
         </el-button>
         <el-button @click="resetForm(ruleFormRef)" id="reset">重置</el-button>
@@ -121,7 +117,7 @@ const getUserInfo = async () => {
     updateForm.userRole = role.roleType;
     updateForm.avatar = avatar;
   } catch (error) {
-    ElMessage.error(error);
+    console.log("🚀 ~ getUserInfo ~ error:", error);
   }
 };
 
@@ -134,7 +130,7 @@ const getRolesList = async () => {
     roleList.value = res.data.slice(1);
     console.log(roleList.value);
   } catch (error) {
-    ElMessage.error(error);
+    console.log("🚀 ~ getRolesList ~ error:", error);
   }
 };
 
@@ -154,7 +150,6 @@ const handleAvatarSuccess = async (response, uploadFile) => {
  */
 const updateDetail = () => {
   ruleFormRef.value.validate(async (valid, fields) => {
-
     if (valid) {
       // 更新用户基础信息
       const res = await updateUserDetailApi(updateForm);
@@ -164,7 +159,7 @@ const updateDetail = () => {
       router.push({ name: "user" });
     } else {
       // 【问题】后端在这里的验证无效
-      ElMessage.error("表单数据不符合规则！")
+      ElMessage.error("表单数据不符合规则！");
       console.log(fields);
     }
   });

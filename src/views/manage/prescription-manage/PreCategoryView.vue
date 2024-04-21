@@ -12,12 +12,7 @@
   </div>
 
   <!-- 药材列表数据 -->
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%"
-    max-height="400"
-  >
+  <el-table :data="tableData" stripe style="width: 100%" max-height="400">
     <el-table-column prop="preTypeName" label="分类名" />
     <el-table-column prop="createdBy" label="创建人" />
     <el-table-column prop="updatedAt" label="最后操作时间" />
@@ -56,8 +51,8 @@
       label-position="top"
       style="font-weight: bold"
     >
-    <el-form-item label="分类ID" prop="preTypeId">
-        <el-input v-model="updateForm.preTypeId" disabled/>
+      <el-form-item label="分类ID" prop="preTypeId">
+        <el-input v-model="updateForm.preTypeId" disabled />
       </el-form-item>
       <el-form-item label="分类名称" prop="typeName">
         <el-input v-model="updateForm.preTypeName" />
@@ -92,8 +87,8 @@
     </template>
   </el-dialog>
 
-    <!-- 分页器 -->
-    <PageQuery
+  <!-- 分页器 -->
+  <PageQuery
     :total="total"
     :pageNum="postForm.pageNum"
     :pageSize="postForm.pageSize"
@@ -106,14 +101,13 @@
 import { onMounted, reactive, ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import {
-  getPriscriptionCategoryListApi,
-  postAddPriscriptionCategoryApi,
-  putUpdPriscriptionCategoryApi,
-  delPriscriptionCategoryApi,
-} from "@/api/priscription";
+  getpreCategoryListByPageApi,
+  postAddPrescriptionCategoryApi,
+  putUpdPrescriptionCategoryApi,
+  delPrescriptionCategoryApi,
+} from "@/api/prescription";
 import { ElMessage } from "element-plus";
 import PageQuery from "@/components/common/PageQuery.vue";
-
 
 // 分页查询初始数据
 const postForm = reactive({
@@ -132,7 +126,7 @@ const updateFormRef = ref();
 // 表单项 -- 编辑
 const updateForm = reactive({
   preTypeId: null,
-  preTypeName: ""
+  preTypeName: "",
 });
 // 控制对话框是否显示 -- 新增
 const dialog = ref(false);
@@ -151,9 +145,8 @@ onMounted(() => {
  * 获取药材分类列表
  */
 const pageQuery = async () => {
-
   try {
-    const res = await getPriscriptionCategoryListApi(postForm);
+    const res = await getpreCategoryListByPageApi(postForm);
 
     tableData.value = res.data.items;
     total.value = res.data.total;
@@ -169,7 +162,7 @@ const handleDelete = async (item) => {
   const { preTypeId } = item;
 
   try {
-    const res = await delPriscriptionCategoryApi(preTypeId);
+    const res = await delPrescriptionCategoryApi(preTypeId);
 
     // 重新取一遍数据，渲染页面
     await pageQuery();
@@ -183,12 +176,12 @@ const handleDelete = async (item) => {
  * 点击编辑并回显
  */
 const handleEdit = (item) => {
-  console.log("🚀 ~ item:", item)
+  // console.log("🚀 ~ item:", item);
 
   // 【注意】这里要一一赋值
   updateForm.preTypeId = item.preTypeId;
   updateForm.preTypeName = item.preTypeName;
-  console.log("🚀 ~ handleEdit ~ updateForm:", updateForm)
+  // console.log("🚀 ~ handleEdit ~ updateForm:", updateForm);
 
   dialogVisible.value = true;
 };
@@ -197,46 +190,44 @@ const handleEdit = (item) => {
  * 保存编辑
  */
 const handleConfirm = async () => {
-  
- // 发起请求
- try {
-        const res = await putUpdPriscriptionCategoryApi(updateForm);
-        console.log("🚀 ~ handleConfirm ~ updateForm:", updateForm)
-        ElMessage.success(res.msg);
+  // 发起请求
+  try {
+    const res = await putUpdPrescriptionCategoryApi(updateForm);
+    // console.log("🚀 ~ handleConfirm ~ updateForm:", updateForm);
+    ElMessage.success(res.msg);
 
-        // 控制对话框显示
-        dialogVisible.value = false;
-        await pageQuery();
-      } catch (error) {
-        console.log("🚀 ~ handleConfirm ~ error:", error)
-
-      }
-}
+    // 控制对话框显示
+    dialogVisible.value = false;
+    await pageQuery();
+  } catch (error) {
+    // console.log("🚀 ~ handleConfirm ~ error:", error);
+  }
+};
 
 /**
  * 新增
  */
 const handleAdd = async () => {
-  // console.log("🚀 ~ handleAdd ~ addForm:", addForm)
+  // // console.log("🚀 ~ handleAdd ~ addForm:", addForm)
 
   try {
-    const res = await postAddPriscriptionCategoryApi(addForm);
+    const res = await postAddPrescriptionCategoryApi(addForm);
     ElMessage.success(res.msg);
 
     // 重新取一遍数据，渲染页面
     await pageQuery();
 
     dialog.value = false;
-    // console.log("🚀 ~ handleAdd ~ res:", res)
+    // // console.log("🚀 ~ handleAdd ~ res:", res)
   } catch (error) {
-    console.log("🚀 ~ handleAdd ~ error:", error);
+    // console.log("🚀 ~ handleAdd ~ error:", error);
   }
 };
 
 /**
  * 分页器--当前页的数据量
  */
- const handlePageSize = (pageSizeVal) => {
+const handlePageSize = (pageSizeVal) => {
   // console.log(pageSizeVal);
 
   postForm.pageSize = pageSizeVal.pageSize;

@@ -27,26 +27,26 @@ export const delArticleCategoryApi = (id) => {
 };
 
 // 资讯列表(条件分页)
-export const getArticleListApi = () => {
-  return req.get(base.articleList);
+export const getArticleListApi = (params) => {
+  return req.get(base.articleList, { params });
 };
 
 // 获取单个资讯的详情
-export const getArticleDetailApi = () => {
-  return req.get(base.articleDetail);
+export const getArticleDetailApi = (articleId) => {
+  return req.get(`${base.articleDetail}?articleId=${articleId}`);
 };
 
 // 新增资讯
-export const postAddArticleApi = () => {
-  return req.post(base.addArticle);
+export const postAddArticleApi = (params) => {
+  return req.post(base.addArticle, params);
 };
 
 // 更新资讯
-export const putUpdArticleApi = () => {
-  return req.put(base.updArticle);
+export const putUpdArticleApi = (params) => {
+  return req.put(base.updArticle, params);
 };
 
 // 删除资讯
-export const delArticleApi = () => {
-  return req.delete(base.delArticle);
+export const delArticleApi = (articleId) => {
+  return req.delete(`${base.delArticle}/${articleId}`);
 };

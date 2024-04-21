@@ -46,7 +46,7 @@ const routes = [
   {
     // 药材管理-列表
     path: "/manage/medicine_manage/message",
-    name: "message",
+    name: "med_message",
     component: () => import("@/views/manage/medicine-manage/MessageView.vue"),
   },
   {

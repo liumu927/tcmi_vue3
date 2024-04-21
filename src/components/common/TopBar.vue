@@ -12,7 +12,7 @@
 @import "@/assets/css/var.scss";
 
 .el-header {
-  background-color: $theme-color;
+  background: linear-gradient(to right,#2da32d,#5dd15d, #9ce09c);
   color: $theme-font-color;
   font-size: 20px;
   font-weight: bold;
@@ -23,6 +23,7 @@
   position: relative; 
 
   & div:last-of-type {
+    color: $theme-color;
     position: absolute;
     right: 20px;
   }

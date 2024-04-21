@@ -59,10 +59,31 @@ const routes = [
   // 用户编辑页
   {
     path: "/manage/user_manage/user/edit",
-    name: 'editUser',
+    name: "editUser",
     component: () => import("@/views/manage/user-manage/EditUser.vue"),
     meta: { requiresAuth: true },
-  }
+  },
+  // 药材编辑页
+  {
+    path: "/manage/medicine_manage/message/edit",
+    name: "editMedicine",
+    component: () => import("@/views/manage/medicine-manage/EditMedicine.vue"),
+    meta: { requiresAuth: true },
+  },
+  // 方剂编辑页
+  {
+    path: "/manage/prescription_manage/message/edit",
+    name: "editPrescription",
+    component: () => import("@/views/manage/prescription-manage/EditPrescription.vue"),
+    meta: { requiresAuth: true },
+  },
+  // 资讯编辑页
+  {
+    path: "/manage/article_manage/articles/edit",
+    name: "editArticlee",
+    component: () => import("@/views/manage/article-manage/EditArticle.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 // 创建路由实例
@@ -79,7 +100,6 @@ router.beforeEach((to, from, next) => {
 
   // 判断是否需要登陆
   if (to.meta.requiresAuth) {
-
     // 需要登陆,判断是否已经登录
     if (!isLogin) {
       // 【问题】登录失效后没有明显的提示，直接报401
@@ -91,10 +111,9 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     // 不需要登录
-    
+
     // 创建前/后台路由, 若是第一次配置路由，才调用；否则会一直重复渲染路径
     if (!isGetterRouter) {
-      
       addDynamicRoutes();
 
       // 重定向,为了让刚刚添加的动态路由规则生效
@@ -102,7 +121,6 @@ router.beforeEach((to, from, next) => {
         path: to.fullPath,
         replace: true,
       });
-
     } else {
       next();
     }

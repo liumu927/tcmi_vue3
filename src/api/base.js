@@ -17,13 +17,16 @@ const base = {
   articleList: "/articles/page", // 资讯列表(条件分页)
   articleDetail: "/articles/detail", // 获取单个资讯的详情
 
-  medicineCategoryList: "/medicine/category/page", // 药材分类列表(条件分页)
+  medCategoryList: "/medicine/category", // 全部药材分类
+  medCategoryListByPage: "/medicine/category/page", // 药材分类列表(条件分页)
   medicineList: "/medicine/page", // 药材列表(条件分页)
+  medecineAllList: "/medicine/all", // 全部药材
   medicineDetail: "/medicine/detail", // 获取单个药材的详情
 
-  priscriptionCategoryList: "/prescription/category/page", // 方剂分类列表(条件分页)
-  priscriptionList: "/prescription/page", // 方剂列表(条件分页)
-  priscriptionDetail: "/prescription/detail", // 获取单个方剂详情(包括药材组成)
+  preCategoryList: "/prescription/category", // 全部方剂分类列表
+  preCategoryListByPage: "/prescription/category/page", // 方剂分类列表(条件分页)
+  prescriptionList: "/prescription/page", // 方剂列表(条件分页)
+  prescriptionDetail: "/prescription/detail", // 获取单个方剂详情(包括药材组成)
 
   // ================================== 后台api ==================================
   allRights: "/rights/all", // 获取全部权限
@@ -60,16 +63,16 @@ const base = {
   addMedicineCategory: "/medicine/category/add", // 新增药材分类
   updMedicineCategory: "/medicine/category/update", // 更新药材分类
   delMedicineCategory: "/medicine/category/delete", // 删除药材分类
-  updMedicine: "/medicine/add", // 新增药材
-  addMedicine: "/medicine/update", // 更新药材
+  addMedicine: "/medicine/add", // 新增药材
+  updMedicine: "/medicine/update", // 更新药材
   delMedicine: "/medicine/delete", // 删除药材
 
-  addPriscriptionCategory: "/prescription/category/add", // 新增方剂分类
-  updPriscriptionCategory: "/prescription/category/update", // 更新方剂分类
-  delPriscriptionCategory: "/prescription/category/delete", // 删除方剂分类
-  addPriscription: "/prescription/add", // 新增方剂(对应药材组成)
-  updPriscription: "/prescription/update", // 更新方剂
-  delPriscription: "/prescription/delete", // 删除方剂
+  addPrescriptionCategory: "/prescription/category/add", // 新增方剂分类
+  updPrescriptionCategory: "/prescription/category/update", // 更新方剂分类
+  delPrescriptionCategory: "/prescription/category/delete", // 删除方剂分类
+  addPrescription: "/prescription/add", // 新增方剂(对应药材组成)
+  updPrescription: "/prescription/update", // 更新方剂
+  delPrescription: "/prescription/delete", // 删除方剂
 
   // ================================== 前台api ==================================
 };

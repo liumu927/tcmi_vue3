@@ -6,7 +6,7 @@
       placeholder="请输入用户名"
     />
     <el-button type="success" @click="pageQuery">搜索</el-button>
-    <el-button type="success" @click="dialog = true" :icon="Plus"
+    <el-button type="success" @click="handleAdd" :icon="Plus"
       >新增用户</el-button
     >
   </div>
@@ -218,6 +218,14 @@ const getRolesList = async () => {
   }
 };
 
+/**		
+ * 触发新增面板		
+ */		
+ const handleAdd = () => {		
+  dialog.value = true;		
+  getRolesList();		
+};
+
 /**
  * 新增用户，发送请求
  */
@@ -238,7 +246,7 @@ const addUser = async () => {
     ElMessage.success(res.msg);
 
     // 重新请求用户列表
-    await getRolesList();
+    await pageQuery();
   } catch (error) {
     console.log("🚀 ~ addUser ~ error:", error)
   }

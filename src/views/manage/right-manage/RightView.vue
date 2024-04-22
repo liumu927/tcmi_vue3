@@ -1,40 +1,48 @@
 <template>
-  <el-table :data="tableData" stripe style="width: 100%" row-key="id">
-    <el-table-column prop="title" label="权限" width="220" />
-    <!-- 自定义：图标 -->
-    <el-table-column label="图标" width="180">
-      <!-- 插槽 # #default是一个命名插槽 -->
-      <template #default="scope">
-        <div style="display: flex; align-items: center">
-          <el-icon>
-            <!-- scope变量包含了当前行的所有数据
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>权限列表</span>
+      </div>
+    </template>
+
+    <el-table :data="tableData" stripe style="width: 100%" row-key="id">
+      <el-table-column prop="title" label="权限" />
+      <!-- 自定义：图标 -->
+      <el-table-column label="图标">
+        <!-- 插槽 # #default是一个命名插槽 -->
+        <template #default="scope">
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <el-icon>
+              <!-- scope变量包含了当前行的所有数据
               scope.row：访问到当前行的数据对象 -->
-            <component :is="mapIcon[scope.row.icon]"></component>
-          </el-icon>
-        </div>
-      </template>
-    </el-table-column>
-    <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right">
-      <!-- 操作按钮 -->
-      <template #default="scope">
-        <el-button size="small" type="warning" @click="handleEdit(scope.row)"
-          >编辑</el-button
-        >
-        <!-- confirm	点击确认按钮时触发 -->
-        <el-popconfirm
-          title="确定要删除吗?"
-          @confirm="handleDelete(scope.row)"
-          confirm-button-text="是"
-          cancel-button-text="否"
-        >
-          <template #reference>
-            <el-button size="small" type="danger">删除</el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
+              <component :is="mapIcon[scope.row.icon]"></component>
+            </el-icon>
+          </div>
+        </template>
+      </el-table-column>
+      <!-- 自定义：操作 -->
+      <el-table-column label="操作" >
+        <!-- 操作按钮 -->
+        <template #default="scope">
+          <el-button size="small" type="warning" @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
+          <!-- confirm	点击确认按钮时触发 -->
+          <el-popconfirm
+            title="确定要删除吗?"
+            @confirm="handleDelete(scope.row)"
+            confirm-button-text="是"
+            cancel-button-text="否"
+          >
+            <template #reference>
+              <el-button size="small" type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-card>
 
   <!-- 编辑框 -->
   <el-dialog v-model="dialogVisible" title="权限编辑" width="50%">
@@ -87,7 +95,11 @@ import {
   Upload,
   Postcard,
 } from "@element-plus/icons-vue";
-import { getAllRightsApi, getManageRightsApi,putRightsApi, delRightApi } from "@/api/rights.js";
+import {
+  getAllRightsApi,
+  putRightsApi,
+  delRightApi,
+} from "@/api/rights.js";
 
 onMounted(() => {
   getRightsList();
@@ -210,9 +222,9 @@ const handleDelete = async (item) => {
   const { id } = item;
 
   try {
-  const res = await delRightApi(id);
-  ElMessage.success(res.msg);
-  
+    const res = await delRightApi(id);
+    ElMessage.success(res.msg);
+
     // 重新取一遍数据，渲染页面
     await getRightsList();
   } catch (error) {
@@ -221,4 +233,17 @@ const handleDelete = async (item) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tableBar {
+  color: #909399;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+:deep(.el-table .cell) {
+  text-align: center;
+}
+</style>

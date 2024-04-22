@@ -210,7 +210,7 @@ const getStateMap = (status) => {
     case 2:
       return "审核通过";
     case 3:
-      return "被驳回";
+      return "驳回";
     default:
       return "正常";
   }
@@ -242,7 +242,6 @@ const getCategoryList = async () => {
 
     categorysList.value = res.data;
 
-    // console.log("🚀 ~ getCategoryList ~ categorysList:", categorysList);
   } catch (error) {
     // console.log("🚀 ~ getCategoryList ~ error:", error);
   }
@@ -285,7 +284,7 @@ const handleDelete = async (item) => {
  * 分页器--当前页的数据量
  */
 const handlePageSize = (pageSizeVal) => {
-  // // console.log("🚀 ~ handlePageSize ~ pageSizeVal:", pageSizeVal)
+  // console.log("🚀 ~ handlePageSize ~ pageSizeVal:", pageSizeVal)
 
   postForm.pageSize = pageSizeVal.pageSize;
   pageQuery();
@@ -295,7 +294,7 @@ const handlePageSize = (pageSizeVal) => {
  * 分页器--切换页码
  */
 const handlePageNum = (pageNumVal) => {
-  // // console.log("🚀 ~ handlePageNum ~ pageNumVal:", pageNumVal)
+  // console.log("🚀 ~ handlePageNum ~ pageNumVal:", pageNumVal)
 
   postForm.pageNum = pageNumVal.pageNum;
   pageQuery();
@@ -309,6 +308,9 @@ const errorHandler = () => true;
 
 <style lang="scss" scoped>
 .tableBar {
+  color: #909399;
+  font-weight: bold;
+  font-size: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;

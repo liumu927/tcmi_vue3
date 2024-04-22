@@ -1,50 +1,58 @@
 <template>
-  <div class="tableBar">
-    <el-input
-      v-model="typeName"
-      style="width: 240px"
-      placeholder="请输入需要查询的分类名"
-    />
-    <el-button type="success" @click="selectByname">搜索</el-button>
-    <el-button type="success" @click="dialog = true" :icon="Plus"
-      >新增分类</el-button
-    >
-  </div>
-
-  <!-- 用户列表数据 -->
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%"
-    max-height="420"
-  >
-    <el-table-column prop="typeName" label="分类名" />
-    <el-table-column prop="createdBy" label="创建人" />
-    <el-table-column prop="updatedAt" label="最后操作时间" />
-    <el-table-column prop="updatedBy" label="操作人" />
-
-    <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right">
-      <!-- 操作按钮 -->
-      <template #default="scope">
-        <el-button size="small" type="warning" @click="handleEdit(scope.row)"
-          >编辑</el-button
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>资讯分类</span>
+        <el-button type="success" @click="dialog = true" :icon="Plus"
+          >新增分类</el-button
         >
+      </div>
+    </template>
 
-        <!-- confirm	点击确认按钮时触发 -->
-        <el-popconfirm
-          title="确定要删除吗?"
-          @confirm="handleDelete(scope.row)"
-          confirm-button-text="是"
-          cancel-button-text="否"
-        >
-          <template #reference>
-            <el-button size="small" type="danger">删除</el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
+    <!-- 搜索、新增行内表单 -->
+    <!-- <el-form :inline="true" :model="typeName" class="form-inline">
+      <el-form-item label="">
+        <el-input
+          v-model="typeName"
+          style="width: 240px"
+          placeholder="请输入需要查询的分类名"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="success" @click="selectByname">搜索</el-button>
+      </el-form-item>
+    </el-form> -->
+
+    <!-- 分类列表数据 -->
+    <el-table :data="tableData" stripe style="width: 100%" max-height="420">
+      <el-table-column prop="typeName" label="分类名" />
+      <el-table-column prop="createdBy" label="创建人" />
+      <el-table-column prop="updatedAt" label="最后操作时间" />
+      <el-table-column prop="updatedBy" label="操作人" />
+
+      <!-- 自定义：操作 -->
+      <el-table-column label="操作" align="right">
+        <!-- 操作按钮 -->
+        <template #default="scope">
+          <el-button size="small" type="warning" @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
+
+          <!-- confirm	点击确认按钮时触发 -->
+          <el-popconfirm
+            title="确定要删除吗?"
+            @confirm="handleDelete(scope.row)"
+            confirm-button-text="是"
+            cancel-button-text="否"
+          >
+            <template #reference>
+              <el-button size="small" type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-card>
 
   <!-- 编辑框 -->
   <el-dialog v-model="dialogVisible" title="分类编辑" width="25%">
@@ -56,8 +64,8 @@
       label-position="top"
       style="font-weight: bold"
     >
-    <el-form-item label="分类ID" prop="articleTypeId">
-        <el-input v-model="updateForm.articleTypeId" disabled/>
+      <el-form-item label="分类ID" prop="articleTypeId">
+        <el-input v-model="updateForm.articleTypeId" disabled />
       </el-form-item>
       <el-form-item label="分类名称" prop="typeName">
         <el-input v-model="updateForm.typeName" />
@@ -115,7 +123,7 @@ const updateFormRef = ref();
 // 表单项 -- 编辑 【注意】这里如果使用ref，则会导致列表会跟着编辑框内容变化
 const updateForm = reactive({
   articleTypeId: null,
-  typeName: ""
+  typeName: "",
 });
 // 控制对话框是否显示 -- 新增
 const dialog = ref(false);
@@ -164,12 +172,12 @@ const handleDelete = async (item) => {
  * 点击编辑并回显
  */
 const handleEdit = (item) => {
-  console.log("🚀 ~ item:", item)
+  console.log("🚀 ~ item:", item);
 
   // 【注意】这里要一一赋值
   updateForm.articleTypeId = item.articleTypeId;
   updateForm.typeName = item.typeName;
-  console.log("🚀 ~ handleEdit ~ updateForm:", updateForm)
+  console.log("🚀 ~ handleEdit ~ updateForm:", updateForm);
 
   dialogVisible.value = true;
 };
@@ -178,21 +186,19 @@ const handleEdit = (item) => {
  * 保存编辑
  */
 const handleConfirm = async () => {
-  
- // 发起请求
- try {
-        const res = await putUpdArticleCategoryApi(updateForm);
-        console.log("🚀 ~ handleConfirm ~ updateForm:", updateForm)
-        ElMessage.success(res.msg);
+  // 发起请求
+  try {
+    const res = await putUpdArticleCategoryApi(updateForm);
+    console.log("🚀 ~ handleConfirm ~ updateForm:", updateForm);
+    ElMessage.success(res.msg);
 
-        // 控制对话框显示
-        dialogVisible.value = false;
-        await getList();
-      } catch (error) {
-        console.log("🚀 ~ handleConfirm ~ error:", error)
-
-      }
-}
+    // 控制对话框显示
+    dialogVisible.value = false;
+    await getList();
+  } catch (error) {
+    console.log("🚀 ~ handleConfirm ~ error:", error);
+  }
+};
 
 /**
  * 新增
@@ -217,7 +223,9 @@ const handleAdd = async () => {
 /**
  * 根据名称查询
  */
-const selectByname = () => {};
+const selectByname = () => {
+  // typeName
+};
 
 // 验证表单规则
 const rules = reactive({
@@ -234,18 +242,15 @@ const rules = reactive({
 
 <style lang="scss" scoped>
 .tableBar {
-  background-color: #fff;
-  padding: 10px 20px;
   color: #909399;
   font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .el-button {
-    margin-left: 20px;
-  }
-
-  // 新增用户按钮，伪类选择器
-  & button:last-child {
-    margin-left: 573px;
-  }
+:deep(.el-table .cell) {
+  text-align: center;
 }
 </style>

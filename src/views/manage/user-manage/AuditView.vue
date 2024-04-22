@@ -1,68 +1,98 @@
 <template>
-  <div class="tableBar">
-    <el-input
-      v-model="postForm.username"
-      style="width: 240px"
-      placeholder="请输入用户名"
-    />
-    <el-button type="success" @click="pageQuery">搜索</el-button>
-  </div>
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>用户审核</span>
+      </div>
+    </template>
 
-  <!-- 用户列表数据 -->
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%"
-    row-key="id"
-    max-height="400"
-  >
-    <el-table-column prop="username" label="用户名" width="100" />
-    <el-table-column label="头像" style="width: 220px">
-      <template #default="scope">
-        <el-avatar :size="40" :src="scope.row.avatar" @error="errorHandler">
-          <img
-            src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
-          />
-        </el-avatar>
-      </template>
-    </el-table-column>
-    <el-table-column
-      prop="userRole"
-      :formatter="getRoleNameMap"
-      label="角色名称"
-    />
-    <el-table-column prop="email" label="邮箱号" />
-    <el-table-column prop="status" :formatter="getStateMap" label="审核状态" />
-    <el-table-column prop="updatedBy" label="审核人" />
-    <el-table-column prop="updatedAt" label="最后操作时间" width="150" />
+    <!-- 搜索、新增行内表单 -->
+    <el-form :inline="true" :model="postForm" class="form-inline">
+      <el-form-item label="">
+        <el-input
+          v-model="postForm.username"
+          style="width: 240px"
+          placeholder="请输入用户名"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="success" @click="pageQuery">搜索</el-button>
+      </el-form-item>
+    </el-form>
 
-    <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right">
-      <!-- 操作按钮 -->
-      <template #default="scope">
-        <el-button size="small" type="warning" @click="getDetail(scope.row)"
-          >详情</el-button
-        >
+    <!-- 用户列表数据 -->
+    <el-table
+      :data="tableData"
+      stripe
+      style="width: 100%"
+      row-key="id"
+      max-height="400"
+    >
+      <el-table-column prop="username" label="用户名" width="100" />
+      <el-table-column label="头像" style="width: 220px">
+        <template #default="scope">
+          <el-avatar :size="40" :src="scope.row.avatar" @error="errorHandler">
+            <img
+              src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+            />
+          </el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="userRole"
+        :formatter="getRoleNameMap"
+        label="角色名称"
+      />
+      <el-table-column prop="email" label="邮箱号" />
+      <el-table-column prop="status" label="审核状态" width="150px">
+        <template #default="scope">
+          <el-tag :type="isType(scope.row.status)">
+            {{ getStateMap(scope.row.status) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updatedBy" label="审核人" />
+      <el-table-column prop="updatedAt" label="最后操作时间" width="140" />
 
-        <!-- confirm	点击确认按钮时触发 -->
-        <el-popconfirm
-          title="确定要删除吗?"
-          @confirm="handleDelete(scope.row)"
-          confirm-button-text="是"
-          cancel-button-text="否"
-        >
-          <template #reference>
-            <el-button
-              size="small"
-              type="danger"
-              :disabled="!!scope.row.isDefault"
-              >删除</el-button
-            >
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
+      <!-- 自定义：操作 -->
+      <el-table-column label="操作" align="right">
+        <!-- 操作按钮 -->
+        <template #default="scope">
+          <el-button size="small" type="warning" @click="getDetail(scope.row)"
+            >详情</el-button
+          >
+
+          <!-- confirm	点击确认按钮时触发 -->
+          <el-popconfirm
+            title="确定要删除吗?"
+            @confirm="handleDelete(scope.row)"
+            confirm-button-text="是"
+            cancel-button-text="否"
+          >
+            <template #reference>
+              <el-button
+                size="small"
+                type="danger"
+                :disabled="!!scope.row.isDefault"
+                >删除</el-button
+              >
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <template #footer>
+      <!-- 分页器 -->
+      <PageQuery
+        :total="total"
+        :pageNum="postForm.pageNum"
+        :pageSize="postForm.pageSize"
+        @page-size="handlePageSize"
+        @page-num="handlePageNum"
+      ></PageQuery>
+    </template>
+  </el-card>
 
   <!-- 审核框 -->
   <el-dialog v-model="dialogVisible" title="用户审核" width="50%">
@@ -103,15 +133,6 @@
       </div>
     </template>
   </el-dialog>
-
-  <!-- 分页器 -->
-  <PageQuery
-    :total="total"
-    :pageNum="postForm.pageNum"
-    :pageSize="postForm.pageSize"
-    @page-size="handlePageSize"
-    @page-num="handlePageNum"
-  ></PageQuery>
 </template>
 
 <script setup>
@@ -147,6 +168,7 @@ const applyFormData = ref();
 onMounted(() => {
   pageQuery();
 });
+
 
 /**
  * 获取用户审核列表
@@ -204,19 +226,36 @@ const handleRefused = async () => {
 };
 
 /**
+ * 根据审核状态添加不同的类名
+ * @param {*} status
+ */
+ const isType = (status) => {
+  switch (status) {
+    case 1:
+      return "warning";
+    case 2:
+      return "success";
+    case 3:
+      return "danger";
+    default:
+      return "primary";
+  }
+};
+
+
+/**
  * 获取审核状态的映射
  * @param {*} row
  * @param {*} col
  */
-const getStateMap = (row, col) => {
-  const status = row.status;
+const getStateMap = (status) => {
   switch (status) {
     case 1:
       return "待审核";
     case 2:
       return "审核通过";
     case 3:
-      return "审核不通过";
+      return "驳回";
     default:
       return "正常";
   }
@@ -277,18 +316,20 @@ const handleDelete = async (item) => {
 
 <style lang="scss" scoped>
 .tableBar {
-  background-color: #fff;
-  padding: 10px 20px;
   color: #909399;
   font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .el-button {
-    margin-left: 20px;
-  }
+:deep(.el-table .cell) {
+  text-align: center;
 }
 
 // 表单
-.el-form-item {
+.el-dialog .el-form-item {
   width: 500px;
 
   :deep(.el-form-item__label) {

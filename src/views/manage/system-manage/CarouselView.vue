@@ -1,10 +1,15 @@
 <template>
-  <div class="tableBar">
-    <el-button type="success" @click="dialog = true" :icon="Plus"
-      >新增封面</el-button
-    >
-  </div>
-  <el-table :data="tableData" stripe style="width: 100%">
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>轮播图列表</span>
+        <el-button type="success" @click="dialog = true" :icon="Plus"
+          >新增封面</el-button
+        >
+      </div>
+    </template>
+
+    <el-table :data="tableData" stripe style="width: 100%">
     <!-- 数据 -->
     <el-table-column label="图片">
       <template #default="scope">
@@ -40,6 +45,7 @@
       </template>
     </el-table-column>
   </el-table>
+  </el-card>
 
   <!-- 编辑框 -->
   <el-dialog v-model="dialogVisible" title="封面编辑" width="50%">
@@ -137,7 +143,7 @@ import {
   getCoverListApi,
   putUpdateCoverApi,
   deleteCoverApi,
-  postAddCoverApi
+  postAddCoverApi,
 } from "@/api/common.js";
 import { useTokenStore } from "@/stores/useTokenStore";
 import { Plus } from "@element-plus/icons-vue";
@@ -168,7 +174,6 @@ onMounted(() => {
   getCoverList();
 });
 
-
 /**
  * 获取轮播图列表
  */
@@ -188,11 +193,8 @@ const getCoverList = async () => {
  * 保存新增
  */
 const handleAddConfirm = () => {
-  
-  addFormRef.value.validate( async (valid, fields) => {
-
-    if(valid) {
-
+  addFormRef.value.validate(async (valid, fields) => {
+    if (valid) {
       //发送请求
       const res = await postAddCoverApi(addForm);
 
@@ -202,13 +204,13 @@ const handleAddConfirm = () => {
 
       await getCoverList();
     }
-  })
+  });
 };
 
 /**
  * 点击编辑并回显
  */
- const handleEdit = (item) => {
+const handleEdit = (item) => {
   // console.log(item);
 
   updateForm.coverId = item.coverId;
@@ -229,7 +231,6 @@ const handleConfirm = () => {
     // console.log(valid, fields);
 
     if (valid) {
-     
     } else {
     }
   });
@@ -286,12 +287,17 @@ const errorHandler = () => true;
 </script>
 
 <style lang="scss" scoped>
-//新增按钮
 .tableBar {
-  background-color: #fff;
-  padding: 10px;
   color: #909399;
   font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+:deep(.el-table .cell) {
+  text-align: center;
 }
 
 // 编辑表单

@@ -265,6 +265,9 @@ const errorHandler = () => true;
 
 <style lang="scss" scoped>
 .tableBar {
+  color: #909399;
+  font-weight: bold;
+  font-size: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,74 +1,90 @@
 <template>
-  <div class="tableBar">
-    <el-input
-      v-model="postForm.username"
-      style="width: 240px"
-      placeholder="请输入用户名"
-    />
-    <el-button type="success" @click="pageQuery">搜索</el-button>
-    <el-button type="success" @click="handleAdd" :icon="Plus"
-      >新增用户</el-button
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>用户列表</span>
+        <el-button type="success" @click="handleAdd" :icon="Plus"
+          >新增用户</el-button
+        >
+      </div>
+    </template>
+
+    <!-- 搜索、新增行内表单 -->
+    <el-form :inline="true" :model="postForm" class="form-inline">
+      <el-form-item label="">
+        <el-input
+          v-model="postForm.username"
+          style="width: 240px"
+          placeholder="请输入用户名"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="success" @click="pageQuery">搜索</el-button>
+      </el-form-item>
+    </el-form>
+
+    <!-- 用户列表数据 -->
+    <el-table
+      :data="tableData"
+      stripe
+      style="width: 100%"
+      row-key="id"
+      max-height="400"
     >
-  </div>
+      <el-table-column prop="username" label="用户名" width="100" />
+      <el-table-column label="头像">
+        <template #default="scope">
+          <el-avatar :size="40" :src="scope.row.avatar" @error="errorHandler">
+            <img
+              src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+            />
+          </el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column prop="role.roleName" label="角色名称" />
+      <el-table-column prop="email" label="邮箱号" />
+      <el-table-column prop="updatedAt" label="最后操作时间" width="140px"/>
 
-  <!-- 用户列表数据 -->
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%"
-    row-key="id"
-    max-height="400"
-  >
-    <el-table-column prop="username" label="用户名" width="100" />
-    <el-table-column label="头像">
-      <template #default="scope">
-        <el-avatar :size="40" :src="scope.row.avatar" @error="errorHandler">
-          <img
-            src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
-          />
-        </el-avatar>
-      </template>
-    </el-table-column>
-    <el-table-column prop="role.roleName" label="角色名称" />
-    <el-table-column prop="email" label="邮箱号" />
-    <el-table-column prop="updatedAt" label="最后操作时间" />
+      <!-- 自定义：操作 -->
+      <el-table-column label="操作" align="right" fixed="right" width="140px" >
+        <!-- 操作按钮 -->
+        <template #default="scope">
+          <el-button size="small" type="warning" @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
 
-    <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right">
-      <!-- 操作按钮 -->
-      <template #default="scope">
-        <el-button size="small" type="warning" @click="handleEdit(scope.row)"
-          >编辑</el-button
-        >
+          <!-- confirm	点击确认按钮时触发 -->
+          <el-popconfirm
+            title="确定要删除吗?"
+            @confirm="handleDelete(scope.row)"
+            confirm-button-text="是"
+            cancel-button-text="否"
+          >
+            <template #reference>
+              <el-button
+                size="small"
+                type="danger"
+                :disabled="!!scope.row.isDefault"
+                >删除</el-button
+              >
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
 
-        <!-- confirm	点击确认按钮时触发 -->
-        <el-popconfirm
-          title="确定要删除吗?"
-          @confirm="handleDelete(scope.row)"
-          confirm-button-text="是"
-          cancel-button-text="否"
-        >
-          <template #reference>
-            <el-button
-              size="small"
-              type="danger"
-              :disabled="!!scope.row.isDefault"
-              >删除</el-button
-            >
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
-
-  <!-- 分页器 -->
-  <PageQuery
-    :total="total"
-    :pageNum="postForm.pageNum"
-    :pageSize="postForm.pageSize"
-    @page-size="handlePageSize"
-    @page-num="handlePageNum"
-  ></PageQuery>
+    <!-- 底部 -->
+    <template #footer>
+      <!-- 分页器 -->
+      <PageQuery
+        :total="total"
+        :pageNum="postForm.pageNum"
+        :pageSize="postForm.pageSize"
+        @page-size="handlePageSize"
+        @page-num="handlePageNum"
+      ></PageQuery
+    ></template>
+  </el-card>
 
   <!-- 抽屉——新增用户 -->
   <!-- 【待优化】关闭面板销毁组件 -->
@@ -116,8 +132,8 @@
         </el-form-item>
       </el-form>
       <div class="demo-drawer__footer">
-        <el-button @click="dialog = false">取消</el-button>
-        <el-button type="primary" @click="addUser">提交</el-button>
+        <el-button @click="dialog = false" type="info">取消</el-button>
+        <el-button type="success" @click="addUser">提交</el-button>
       </div>
     </div>
   </el-drawer>
@@ -218,12 +234,12 @@ const getRolesList = async () => {
   }
 };
 
-/**		
- * 触发新增面板		
- */		
- const handleAdd = () => {		
-  dialog.value = true;		
-  getRolesList();		
+/**
+ * 触发新增面板
+ */
+const handleAdd = () => {
+  dialog.value = true;
+  getRolesList();
 };
 
 /**
@@ -248,7 +264,7 @@ const addUser = async () => {
     // 重新请求用户列表
     await pageQuery();
   } catch (error) {
-    console.log("🚀 ~ addUser ~ error:", error)
+    console.log("🚀 ~ addUser ~ error:", error);
   }
   dialog.value = false;
 };
@@ -324,18 +340,21 @@ const rules = reactive({
 
 <style lang="scss" scoped>
 .tableBar {
-  background-color: #fff;
-  padding: 10px 20px;
   color: #909399;
   font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .el-button {
-    margin-left: 20px;
-  }
+:deep(.el-table .cell) {
+  text-align: center;
+}
 
-  // 新增用户按钮，伪类选择器
-  & button:last-child {
-    margin-left: 573px;
-  }
+// 新增抽屉按钮
+.demo-drawer__footer {
+  float: right;
+  margin: 20px 25px;
 }
 </style>

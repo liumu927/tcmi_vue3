@@ -12,6 +12,8 @@ const base = {
   logout: "/users/logout", // 退出登录
 
   coverList: "/cover/list", // 轮播图列表
+  noticeList: '/notices/page', // 公告列表
+  noticeDetail: '/notices/detail', // 获取单个公告详情
 
   articleCategoryList: "/article/category", // 资讯分类列表
   articleList: "/articles/page", // 资讯列表(条件分页)
@@ -73,6 +75,10 @@ const base = {
   addPrescription: "/prescription/add", // 新增方剂(对应药材组成)
   updPrescription: "/prescription/update", // 更新方剂
   delPrescription: "/prescription/delete", // 删除方剂
+
+  addNotice: '/notices/add', // 新增公告
+  updateNotice: '/notices/update', // 更新公告
+  deleteNotice: '/notices/delete', // 删除公告
 
   // ================================== 前台api ==================================
 };

@@ -1,9 +1,17 @@
 <template>
-  <el-table :data="tableData" stripe style="width: 100%">
+
+<el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>角色列表</span>
+      </div>
+    </template>
+
+    <el-table :data="tableData" stripe style="width: 100%">
     <el-table-column
       prop="roleName"
       label="角色名称"
-      width="220"
+  
       trigger="hover"
     >
       <template #default="scope">
@@ -12,7 +20,7 @@
           popper-class="el_popover_class"
           placement="right"
           title="权限详情"
-          :width="200"
+          width="200"
           trigger="hover"
           @before-enter="handleHover(scope.row)"
         >
@@ -34,7 +42,7 @@
     </el-table-column>
 
     <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right">
+    <el-table-column label="操作">
       <!-- 操作按钮 -->
       <template #default="scope">
         <el-button size="small" type="warning" @click="handleEdit(scope.row)"
@@ -54,6 +62,7 @@
       </template>
     </el-table-column>
   </el-table>
+</el-card>
 
   <!-- 编辑框 -->
   <el-dialog v-model="dialogVisible" title="角色编辑" width="50%">
@@ -245,7 +254,20 @@ const handleDelete = async (item) => {
 </script>
 
 <style lang="scss" scoped>
-// 需要开启深度选择，否则不生效
+.tableBar {
+  color: #909399;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+:deep(.el-table .cell) {
+  text-align: center;
+}
+
+// Popover 需要开启深度选择，否则不生效
 :deep(.active) {
   color: #32cd32;
 }

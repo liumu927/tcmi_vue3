@@ -1,45 +1,69 @@
 <template>
-  <div class="tableBar">
-    <el-input
-      v-model="postForm.medicineTypeName"
-      style="width: 240px"
-      placeholder="请输入需要查询的分类名"
-    />
-    <el-button type="success" @click="pageQuery">搜索</el-button>
-    <el-button type="success" @click="dialog = true" :icon="Plus"
-      >新增分类</el-button
-    >
-  </div>
-
-  <!-- 药材列表数据 -->
-  <el-table :data="tableData" stripe style="width: 100%" max-height="400">
-    <el-table-column prop="medicineTypeName" label="分类名" />
-    <el-table-column prop="createdBy" label="创建人" />
-    <el-table-column prop="updatedAt" label="最后操作时间" />
-    <el-table-column prop="updatedBy" label="操作人" />
-
-    <!-- 自定义：操作 -->
-    <el-table-column label="操作" align="right">
-      <!-- 操作按钮 -->
-      <template #default="scope">
-        <el-button size="small" type="warning" @click="handleEdit(scope.row)"
-          >编辑</el-button
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>药材分类</span>
+        <el-button type="success" @click="dialog = true" :icon="Plus"
+          >新增分类</el-button
         >
+      </div>
+    </template>
 
-        <!-- confirm	点击确认按钮时触发 -->
-        <el-popconfirm
-          title="确定要删除吗?"
-          @confirm="handleDelete(scope.row)"
-          confirm-button-text="是"
-          cancel-button-text="否"
-        >
-          <template #reference>
-            <el-button size="small" type="danger">删除</el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
+    <!-- 搜索、新增行内表单 -->
+    <el-form :inline="true" :model="postForm" class="form-inline">
+      <el-form-item label="">
+        <el-input
+          v-model="postForm.medicineTypeName"
+          style="width: 240px"
+          placeholder="请输入需要查询的分类名"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="success" @click="pageQuery">搜索</el-button>
+      </el-form-item>
+    </el-form>
+
+    <!-- 药材列表数据 -->
+    <el-table :data="tableData" stripe style="width: 100%" max-height="400">
+      <el-table-column prop="medicineTypeName" label="分类名" />
+      <el-table-column prop="createdBy" label="创建人" />
+      <el-table-column prop="updatedAt" label="最后操作时间" />
+      <el-table-column prop="updatedBy" label="操作人" />
+
+      <!-- 自定义：操作 -->
+      <el-table-column label="操作" align="right">
+        <!-- 操作按钮 -->
+        <template #default="scope">
+          <el-button size="small" type="warning" @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
+
+          <!-- confirm	点击确认按钮时触发 -->
+          <el-popconfirm
+            title="确定要删除吗?"
+            @confirm="handleDelete(scope.row)"
+            confirm-button-text="是"
+            cancel-button-text="否"
+          >
+            <template #reference>
+              <el-button size="small" type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <template #footer>
+      <!-- 分页器 -->
+      <PageQuery
+        :total="total"
+        :pageNum="postForm.pageNum"
+        :pageSize="postForm.pageSize"
+        @page-size="handlePageSize"
+        @page-num="handlePageNum"
+      ></PageQuery>
+    </template>
+  </el-card>
 
   <!-- 编辑框 -->
   <el-dialog v-model="dialogVisible" title="分类编辑" width="25%">
@@ -86,15 +110,6 @@
       </div>
     </template>
   </el-dialog>
-
-  <!-- 分页器 -->
-  <PageQuery
-    :total="total"
-    :pageNum="postForm.pageNum"
-    :pageSize="postForm.pageSize"
-    @page-size="handlePageSize"
-    @page-num="handlePageNum"
-  ></PageQuery>
 </template>
 
 <script setup>
@@ -259,18 +274,15 @@ const rules = reactive({
 
 <style lang="scss" scoped>
 .tableBar {
-  background-color: #fff;
-  padding: 10px 20px;
   color: #909399;
   font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .el-button {
-    margin-left: 20px;
-  }
-
-  // 新增药材按钮，伪类选择器
-  & button:last-child {
-    margin-left: 573px;
-  }
+:deep(.el-table .cell) {
+  text-align: center;
 }
 </style>

@@ -105,7 +105,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import {
-  getArticleCategoryListApi,
+  getArticleCategoryApi,
   postAddArticleCategoryApi,
   putUpdArticleCategoryApi,
   delArticleCategoryApi,
@@ -143,7 +143,7 @@ onMounted(() => {
  */
 const getList = async () => {
   try {
-    const res = await getArticleCategoryListApi();
+    const res = await getArticleCategoryApi();
 
     tableData.value = res.data;
   } catch (error) {

@@ -128,7 +128,7 @@ import TopBar from "@/components/common/TopBar.vue";
 import { useTokenStore } from "@/stores/useTokenStore";
 import { Plus } from "@element-plus/icons-vue";
 import {
-  getPrescriptionDetailApi,
+  getPreDetailApi,
   getPreCategoryListApi,
   putUpdPrescriptionApi,
   postAddPrescriptionApi,
@@ -199,7 +199,7 @@ const getMedAllList = async () => {
  */
 const getPreInfo = async () => {
   try {
-    const res = await getPrescriptionDetailApi(getPrescriptionId);
+    const res = await getPreDetailApi(getPrescriptionId);
 
     // 回显
     Object.assign(updateForm, res.data);
@@ -230,7 +230,6 @@ const getCategoryList = async () => {
  */
 const addPrescription = () => {
   ruleFormRef.value.validate(async (valid, fields) => {
-
     // 封装方剂的药材组成，将selectMedIds中的药材id重新封装到prescriptionMedicines中（会覆盖原有的数据！但这是我想要的）
     // 遍历数组，将每个元素转换成一个对象，包含一个属性medicineId，值为元素的值
     let pMs = updateForm.selectMedIds.map((id) => {

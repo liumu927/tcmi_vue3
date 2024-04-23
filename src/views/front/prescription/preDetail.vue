@@ -3,9 +3,9 @@
   <el-card>
     <template #header>
       <div class="card-header">
-        <h1>{{ medicineDetail.medicineName }}</h1>
+        <h1>{{ preDetail.prescriptionName }}</h1>
         <p style="color: grey; font-size: 12px">
-          更新时间：{{ medicineDetail.updatedAt }}
+          更新时间：{{ preDetail.updatedAt }}
         </p>
       </div>
     </template>
@@ -13,41 +13,40 @@
     <div class="main">
       <div class="tag">
         <p>
-          分类专栏：<el-tag type="info">{{
-            medicineDetail.medicineTypeName
-          }}</el-tag>
+          分类专栏：<el-tag type="warning">{{ preDetail.preTypeName }}</el-tag>
         </p>
       </div>
       <div class="container">
         <div class="med-img">
-          <img :src="medicineDetail.medicineImg" />
-          <span id="med-img-text">药材图示</span>
+          <img :src="preDetail.imgUrl" />
+          <span id="med-img-text">方剂图示</span>
         </div>
         <div class="text">
           <ul>
-            <li><span>药材别名</span>{{ medicineDetail.medicineAlias }}</li>
-            <li><span>药材归经</span>{{ medicineDetail.origin }}</li>
-            <li>
-              <span>产地分布</span>{{ medicineDetail.originDistribution }}
-            </li>
-            <li><span>药用部位</span>{{ medicineDetail.medicinalParts }}</li>
-            <li><span>药材性状</span>{{ medicineDetail.analysis }}</li>
-            <li><span>功效与作用</span>{{ medicineDetail.effects }}</li>
-            <li>
-              <span>常用配方推荐</span>{{ medicineDetail.commonPrescriptions }}
-            </li>
-            <li><span>临床应用</span>{{ medicineDetail.application }}</li>
-            <li><span>使用禁忌</span>{{ medicineDetail.usageTaboo }}</li>
-            <li><span>参考价格</span>{{ medicineDetail.referencePrice }}</li>
+            <li><span>方剂归经</span>{{ preDetail.origin }}</li>
+            <li><span>主要功效</span>{{ preDetail.effects }}</li>
+            <li><span>组成成分</span>{{ preDetail.composition }}</li>
+            <li><span>推荐用法</span>{{ preDetail.prescriptionUsage }}</li>
+            <li><span>临床应用</span>{{ preDetail.application }}</li>
+            <li><span>使用人群</span>{{ preDetail.applicableCrowd }}</li>
+            <li><span>使用禁忌</span>{{ preDetail.contraindications }}</li>
           </ul>
-        </div>
-        <div v-if="!notIsNormal" class="no-normal">
-          <div class="med-img">
-            <img :src="medicineDetail.structureImg" />
-            <span>化学结构图</span>
+          <div class="preMedicines">
+            <p>主要药材组成</p>
+            <template v-for="(item, index) in preMeds" :key="index">
+              <el-tag
+                style="cursor: pointer"
+                type="success"
+                @click="
+                  router.push({
+                    name: 'medicineDetail',
+                    query: { medicineId: item.medicineId },
+                  })
+                "
+                >{{ item.medicineName }}</el-tag
+              >
+            </template>
           </div>
-          <p><span>药材化学成分</span>{{ medicineDetail.biologicalRelated }}</p>
-          <p><span>药理研究</span>{{ medicineDetail.chemicalStructure }}</p>
         </div>
       </div>
     </div>
@@ -55,7 +54,7 @@
     <template #footer>
       <div class="left-toolbox">
         <div class="toolbox-left">
-          <p>发布时间：{{ medicineDetail.createdAt }}</p>
+          <p>发布时间：{{ preDetail.createdAt }}</p>
         </div>
         <div class="toolbox-right">
           <!-- 点赞 -->
@@ -99,6 +98,27 @@
               style="color: rgb(153, 154, 170)"
             ></span>
           </a>
+
+          <!-- 认证：只有专业用户可以进行认证 -->
+          <a class="tool-item-href">
+            <img
+              class="isactive"
+              style="margin-right: 0px; display: none"
+              id="is-auth-imgactive"
+              src="/public/auth_active.png"
+            />
+            <img
+              class="isdefault"
+              style="margin-right: 0px; display: block"
+              id="is-auth-img"
+              src="/public/auth.png"
+            />
+            <span
+              id="authCount"
+              class="count"
+              style="color: rgb(153, 154, 170)"
+            ></span>
+          </a>
         </div>
       </div>
     </template>
@@ -112,12 +132,12 @@
     </template>
     <div class="left-toolbox">
       <div class="toolbox-left">
-        <el-avatar :size="50" :src="medicineDetail.coverImg" />
-        <span>{{ medicineDetail.author }}</span>
+        <el-avatar :size="50" :src="preDetail.coverImg" />
+        <span>{{ preDetail.author }}</span>
       </div>
       <div class="toolbox-middle"></div>
       <div class="toolbox-right">
-        <p>发布时间：{{ medicineDetail.createdAt }}</p>
+        <p>发布时间：{{ preDetail.createdAt }}</p>
       </div>
     </div>
   </el-card>
@@ -126,40 +146,44 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { reactive, ref, onMounted, computed } from "vue";
-import { getMedicineDetailApi } from "@/api/medicine";
+import { getPreDetailApi } from "@/api/prescription";
 import { useUserStore } from "@/stores/useUserStore";
+import { Star, Medal, Pointer } from "@element-plus/icons-vue";
 
 const { userInfo } = useUserStore();
 const route = useRoute();
-// 接收通过路由跳转传过来的资讯ID
-const getMedicineId = route.query.medicineId;
-const medicineDetail = ref([]);
-const userRoleId = userInfo.role.roleType;
+const router = useRouter();
+// 接收通过路由跳转传过来的ID
+const getPreId = route.query.prescriptionId;
+const preDetail = ref([]);
+// 接收药材组成
+const preMeds = ref([]);
 
 onMounted(() => {
-  getMedInfo();
+  getPreInfo();
 });
 
 // 判断用户身份 是否是普通用户
 const notIsNormal = computed(() => {
-  return userRoleId === 303;
+  return userInfo.role.roleType === 303;
 });
-console.log("🚀 ~ notIsNormal ~ notIsNormal:", notIsNormal.value);
 
 /**
- * 获取药材信息
+ * 获取方剂信息
  */
-const getMedInfo = async () => {
+const getPreInfo = async () => {
   try {
-    const res = await getMedicineDetailApi(getMedicineId);
-    console.log("🚀 ~ getMedInfo ~ res:", res);
+    const res = await getPreDetailApi(getPreId);
 
     // 回显
-    medicineDetail.value = res.data;
+    preDetail.value = res.data;
+
+    // 存放药材组成数据
+    preMeds.value = res.data.prescriptionMedicines;
   } catch (error) {
-    console.log("🚀 ~ getMedInfo ~ error:", error);
+    console.log("🚀 ~ getPreInfo ~ error:", error);
   }
 };
 </script>
@@ -225,42 +249,36 @@ const getMedInfo = async () => {
           list-style: none;
 
           li {
-            display: flex;
-            height: 35px;
-            line-height: 35px;
             font-size: 12px;
             color: gray;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            margin-bottom: 10px;
+
             span {
               display: block;
-              width: 110px;
+              height: 30px;
+              line-height: 30px;
               font-size: 14px;
               font-weight: bold;
               color: #cdaa7d;
             }
           }
         }
-      }
 
-      // 普通用户不可见区域
-      .no-normal {
-        margin-top: 20px;
-
-        .med-img {
-          margin-bottom: 20px;
-        }
-
-        p {
-          display: flex;
-          height: 35px;
-          line-height: 35px;
-          font-size: 12px;
-          color: gray;
-          span {
-            display: block;
+        // 药材组成
+        .preMedicines {
+          p {
             width: 110px;
             font-size: 14px;
             font-weight: bold;
             color: #cdaa7d;
+          }
+
+          .el-tag {
+            margin-top: 10px;
+            margin-right: 20px;
           }
         }
       }
@@ -273,23 +291,16 @@ const getMedInfo = async () => {
     justify-content: space-between;
     align-items: center;
 
-    // 左侧 头像 姓名
+    // 左侧
     .toolbox-left {
       display: flex;
       align-items: center;
       font-size: 12px;
-
-      span:last-child {
-        font-size: 18px;
-        font-weight: bold;
-        display: block;
-        margin-left: 20px;
-      }
     }
 
     // 右侧
     .toolbox-right {
-      width: 15%;
+      width: 30%;
       display: flex;
       justify-content: space-around;
 

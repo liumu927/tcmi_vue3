@@ -84,6 +84,27 @@ const routes = [
     component: () => import("@/views/manage/article-manage/EditArticle.vue"),
     meta: { requiresAuth: true },
   },
+  // 文章详情页
+  {
+    path: "/front/news/list/detail",
+    name: "articleDetail",
+    component: () => import("@/views/front/news/newDetail.vue"),
+    meta: { requiresAuth: true },
+  },
+    // 药材详情页
+    {
+      path: "/front/medicine/list/detail",
+      name: "medicineDetail",
+      component: () => import("@/views/front/medicine/medicineDetail.vue"),
+      meta: { requiresAuth: true },
+    },
+      // 方剂详情页
+  {
+    path: "/front/prescription/list/detail",
+    name: "prescriptionDetail",
+    component: () => import("@/views/front/prescription/preDetail.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 // 创建路由实例

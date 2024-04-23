@@ -141,7 +141,6 @@ import { onMounted, reactive, ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import {
   getMedicineListApi,
-  postAddMedicineApi,
   delMedicineApi,
   getMedCategoryListApi,
 } from "@/api/medicine";

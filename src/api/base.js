@@ -18,6 +18,7 @@ const base = {
   articleCategoryList: "/article/category", // 资讯分类列表
   articleList: "/articles/page", // 资讯列表(条件分页)
   articleDetail: "/articles/detail", // 获取单个资讯的详情
+  articleHotTen: "/articles/hot", // 获取热门文章
 
   medCategoryList: "/medicine/category", // 全部药材分类
   medCategoryListByPage: "/medicine/category/page", // 药材分类列表(条件分页)

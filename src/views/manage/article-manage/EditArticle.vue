@@ -6,7 +6,7 @@
       <div class="tableBar">
         <span v-if="getArticleId">资讯更新页</span>
         <span v-else>新增资讯页</span>
-        <el-button type="success" plain @click="router.back();">返回</el-button>
+        <el-button type="success" plain @click="router.back()">返回</el-button>
       </div>
     </template>
 
@@ -85,7 +85,8 @@
       <!-- 按钮 -->
       <el-form-item>
         <el-button v-if="getArticleId" type="success" @click="updateDetail"
-          >保存更新</el-button>
+          >保存更新</el-button
+        >
         <el-button v-else type="success" @click="addArticle">新增</el-button>
         <el-button @click="resetForm(ruleFormRef)" id="reset">重置</el-button>
       </el-form-item>
@@ -104,7 +105,7 @@ import { Plus } from "@element-plus/icons-vue";
 import {
   getArticleDetailApi,
   putUpdArticleApi,
-  getArticleCategoryListApi,
+  getArticleCategoryApi,
   postAddArticleApi,
 } from "@/api/articles";
 
@@ -126,7 +127,7 @@ const updateForm = reactive({
   coverImg: "",
   articleCategory: null,
   content: "",
-  articleImg: ""
+  articleImg: "",
 });
 
 onMounted(() => {
@@ -157,7 +158,7 @@ const getArticleInfo = async () => {
  */
 const getCategoryList = async () => {
   try {
-    var res = await getArticleCategoryListApi();
+    var res = await getArticleCategoryApi();
     categorysList.value = res.data;
 
     console.log("🚀 ~ getCategoryList ~ categorysList:", categorysList);

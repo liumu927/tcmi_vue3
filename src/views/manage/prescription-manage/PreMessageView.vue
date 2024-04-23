@@ -145,7 +145,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import {
-  getPrescriptionListApi,
+  getPreListApi,
   delPrescriptionApi,
   getPreCategoryListApi,
 } from "@/api/prescription";
@@ -222,7 +222,7 @@ const getStateMap = (status) => {
 const pageQuery = async () => {
   try {
     // console.log("🚀 ~ pageQuery ~ postForm:", postForm);
-    var res = await getPrescriptionListApi(postForm);
+    var res = await getPreListApi(postForm);
 
     tableData.value = res.data.items;
     total.value = res.data.total;
@@ -241,7 +241,6 @@ const getCategoryList = async () => {
     // console.log("🚀 ~ getCategoryList ~ res:", res);
 
     categorysList.value = res.data;
-
   } catch (error) {
     // console.log("🚀 ~ getCategoryList ~ error:", error);
   }

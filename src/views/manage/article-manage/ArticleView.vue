@@ -89,7 +89,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容" width="150px"  />
+      <el-table-column prop="content" label="内容" width="150px" />
       <el-table-column prop="createdAt" label="创建时间" width="150px" />
       <el-table-column prop="updatedBy" label="最后操作时间" width="150px" />
 
@@ -136,7 +136,7 @@ import { Plus } from "@element-plus/icons-vue";
 import {
   getArticleListApi,
   delArticleApi,
-  getArticleCategoryListApi,
+  getArticleCategoryApi,
 } from "@/api/articles";
 import { useRouter } from "vue-router";
 import PageQuery from "@/components/common/PageQuery.vue";
@@ -183,7 +183,7 @@ const pageQuery = async () => {
  */
 const getCategoryList = async () => {
   try {
-    var res = await getArticleCategoryListApi();
+    var res = await getArticleCategoryApi();
 
     console.log("🚀 ~ getCategoryList ~ res:", res);
 

@@ -32,12 +32,12 @@ export const delPrescriptionCategoryApi = (id) => {
 };
 
 // 方剂列表(条件分页)
-export const getPrescriptionListApi = (params) => {
+export const getPreListApi = (params) => {
   return req.get(base.prescriptionList, { params });
 };
 
 // 获取单个方剂的详情
-export const getPrescriptionDetailApi = (prescriptionId) => {
+export const getPreDetailApi = (prescriptionId) => {
   return req.get(`${base.prescriptionDetail}?prescriptionId=${prescriptionId}`);
 };
 

@@ -41,8 +41,8 @@ req.interceptors.request.use(
   },
   (error) => {
     // 对请求错误做些什么
-    console.log("🚀 ~ error:", error)
-   
+    console.log("🚀 ~ error:", error);
+
     return Promise.reject(error);
   }
 );
@@ -51,7 +51,7 @@ req.interceptors.request.use(
 req.interceptors.response.use(
   (res) => {
     // 对响应数据做点什么
-    console.log("🚀 ~ res:", res)
+    console.log("🚀 ~ res:", res);
 
     const isSuccess = res.data.code === 200;
 
@@ -66,18 +66,20 @@ req.interceptors.response.use(
     }
   },
   (error) => {
-    console.log("🚀 ~ error:", error)
-    
+    console.log("🚀 ~ error:", error);
+
     // 处理登录过期的逻辑
-    // if (error.response || error.response.status === 401) { // 根据后端设置的状态码
-    if (error.response) { // 根据后端设置的状态码
+    if (error.response || error.response.status === 401) {
+      // 根据后端设置的状态码
+
+      ElNotification.error(error);
 
       // 清除过期 token
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
 
       // 跳转到登录页
-      router.push('/login');
+      router.push("/login");
     }
 
     return Promise.reject(error);

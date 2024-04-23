@@ -7,7 +7,7 @@ import req from "./request.js";
 import base from "./base.js";
 
 // 资讯分类列表
-export const getArticleCategoryListApi = () => {
+export const getArticleCategoryApi = () => {
   return req.get(base.articleCategoryList);
 };
 
@@ -49,4 +49,9 @@ export const putUpdArticleApi = (params) => {
 // 删除资讯
 export const delArticleApi = (articleId) => {
   return req.delete(`${base.delArticle}/${articleId}`);
+};
+
+// 获取热门文章
+export const getArticleHotTenApi = () => {
+  return req.get(base.articleHotTen);
 };

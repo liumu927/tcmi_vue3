@@ -11,9 +11,12 @@
     <div class="title">百草</div>
     <template v-for="data in datalist" :key="data.path">
       <!-- 含多级菜单 -->
-      <el-menu-item v-if="data.children.length && checkAuth(data.path)">
+      <div
+        v-if="data.children.length && checkAuth(data.path)"
+        @click="handleOpenDrawer"
+      >
         <!-- 头像框 -->
-        <el-avatar :size="35" :src="userInfo.avatar" @click="handleOpenDrawer">
+        <el-avatar :size="35" :src="userInfo.avatar">
           <img :src="circleUrl" />
         </el-avatar>
         <!-- 抽屉显示子菜单 -->
@@ -29,6 +32,9 @@
                 <template v-if="!isLogin">尚未登录的拾草客</template>
                 <template v-else>
                   尊贵的【{{ userInfo.username }}】大人
+                  <el-tag v-if="isAuth" type="success" style="margin-left: 5px"
+                    >专业用户</el-tag
+                  >
                 </template>
               </p>
             </div>
@@ -58,7 +64,7 @@
 
           <el-button @click="handleManage">进入后台</el-button>
         </el-drawer>
-      </el-menu-item>
+      </div>
       <!-- 仅有一级菜单 -->
       <el-menu-item :index="data.path" v-else-if="checkAuth(data.path)">
         <p>{{ data.title }}</p>
@@ -81,8 +87,9 @@ import {
   Postcard,
 } from "@element-plus/icons-vue";
 import { storeToRefs } from "pinia";
+import { getUserInfoApi } from "@/api/user.js";
 
-const { exitAction, userInfo } = useUserStore();
+const { exitAction, userInfo, changeUser } = useUserStore();
 const { isLogin } = storeToRefs(useUserStore());
 
 const router = useRouter();
@@ -96,10 +103,39 @@ const datalist = ref([]);
 const dialog = ref(false);
 // 映射图标
 const mapIcon = { ChatDotRound, User, Star, SwitchButton, Upload, Postcard };
+const isAuth = ref(false);
 
 onMounted(() => {
   getFrontRights();
 });
+
+/**
+ * 点击头像的回调
+ * 【问题】这里用户身份发生变化时，抽屉不能实时更新，需要刷新几次
+ */
+const handleOpenDrawer = () => {
+  dialog.value = !dialog.value;
+
+  // 登录了才需要获取用户信息
+  if (isLogin.value) {
+    getUserInfo();
+    // getFrontRights();
+    isAuth.value = userInfo.role.roleType == 302;
+  }
+};
+
+/**
+ * 获取用户信息
+ */
+const getUserInfo = async () => {
+  try {
+    const res = await getUserInfoApi(userInfo.id);
+    //  更新本地pinia
+    changeUser(res.data);
+  } catch (error) {
+    console.log("🚀 ~ getUserInfo ~ error:", error);
+  }
+};
 
 /**
  * 获取导航栏数据
@@ -113,18 +149,6 @@ const getFrontRights = async () => {
   } catch (error) {
     console.log(error);
   }
-};
-
-// 用一个短暂的延迟切换对话框
-const handleOpenDrawer = (key, keyPath) => {
-  console.log(key, keyPath);
-  setTimeout(() => {
-    // 使用 Promise 来处理延迟更新
-    new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
-      dialog.value = !dialog.value;
-      console.log(33333, dialog.value);
-    });
-  }, 10); // 根据需要调整延迟
 };
 
 /**

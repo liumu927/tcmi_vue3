@@ -75,7 +75,7 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { reactive, ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getArticleDetailApi } from "@/api/articles";
 
 const route = useRoute();

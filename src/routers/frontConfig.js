@@ -38,9 +38,16 @@ const routes = [
     meta: { requiresAuth: false },
   },
   {
-    path:"/front/user",
-    name:"user",
+    path: "/front/user",
+    name: "user",
     meta: { requiresAuth: false },
+  },
+  // 我的
+  {
+    path: "/front/user",
+    name: "userInfo",
+    redirect: "/front/user/mine",
+    component: () => import("@/views/front/user/mine.vue"),
   },
   // 我的——我的信息
   {

@@ -55,7 +55,7 @@
       <el-table-column prop="updatedAt" label="最后操作时间" width="140" />
 
       <!-- 自定义：操作 -->
-      <el-table-column label="操作" align="right">
+      <el-table-column label="操作" align="right" width="140px">
         <!-- 操作按钮 -->
         <template #default="scope">
           <el-button size="small" type="warning" @click="getDetail(scope.row)"

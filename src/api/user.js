@@ -20,7 +20,7 @@ export const postUserLogoutApi = (userId) => {
 
 // 用户列表(条件分页)
 export const getUserListByPageQueryApi = (params) => {
-  return req.get(base.userList, {params: params});
+  return req.get(base.userList, { params: params });
 };
 
 // 删除用户
@@ -49,9 +49,9 @@ export const updateUserDetailApi = (params) => {
 };
 
 // 用户审核列表（条件分页）
-export const getApplyListApi= (params) => {
-  return req.get(base.applyList, {params: params});
-}
+export const getApplyListApi = (params) => {
+  return req.get(base.applyList, { params: params });
+};
 
 // 通过审核
 export const applyApplicationApi = (userId) => {
@@ -61,4 +61,9 @@ export const applyApplicationApi = (userId) => {
 //不通过审核
 export const refusedApplicationApi = (userId) => {
   return req.post(`${base.refusedApplication}?id=${userId}`);
+};
+
+// 添加审核 用户申请成为专业用户
+export const postApplyAuthApi = (params) => {
+  return req.post(base.applyAuth, params);
 };

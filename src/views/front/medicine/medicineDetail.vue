@@ -64,13 +64,13 @@
               class="isactive"
               style="margin-right: 0px; display: none"
               id="is-zan-imgactive"
-              src="/public/zan_active.png"
+              src="/zan_active.png"
             />
             <img
               class="isdefault"
               style="margin-right: 0px; display: block"
               id="is-zan-img"
-              src="/public/zan.png"
+              src="/zan.png"
             />
             <span
               id="zanCount"
@@ -85,13 +85,13 @@
               class="isactive"
               style="margin-right: 0px; display: none"
               id="is-like-imgactive"
-              src="/public/like_active.png"
+              src="/like_active.png"
             />
             <img
               class="isdefault"
               style="margin-right: 0px; display: block"
               id="is-like-img"
-              src="/public/like.png"
+              src="/like.png"
             />
             <span
               id="likeCount"

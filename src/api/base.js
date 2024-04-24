@@ -45,7 +45,6 @@ const base = {
   deleteUser: "/users/delete", // 删除用户
   addUser: "/users/add", // 管理员新增用户
   userInfo: "/users/userInfo", // 用户详细信息
-  updateAvatar: "/users/updateAvatar", // 更新用户头像
   updateUserDetail: "/users/update", // 更新用户基本信息
 
   applyList: "/apply/page", // 用户审核列表（条件分页）
@@ -82,6 +81,8 @@ const base = {
   deleteNotice: '/notices/delete', // 删除公告
 
   // ================================== 前台api ==================================
+  updateAvatar: "/users/updateAvatar", // 更新用户头像
+  applyAuth: "/apply/add", // 申请成为专业用户
 };
 
 export default base;

@@ -9,6 +9,11 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 // import Particles from "particles.vue3";
 import Particles from "vue3-particles";
 
+// 跳转后返回顶部
+router.afterEach((to,from,next) => {
+  window.scrollTo(0,0);
+})
+
 // 将App create()实例化后挂载到根组件#app上
 createApp(App)
   .use(router)

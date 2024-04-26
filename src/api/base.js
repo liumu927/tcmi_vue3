@@ -82,7 +82,16 @@ const base = {
 
   // ================================== 前台api ==================================
   updateAvatar: "/users/updateAvatar", // 更新用户头像
+
   applyAuth: "/apply/add", // 申请成为专业用户
+
+  authAddPre: "/prescription/auth/add", // 专业用户上传方剂
+  passAuthPreList: "/prescription/auth/page", // 获取前台能够展示的方剂
+
+  changeCollectState: "/collection/change", // 添加或取消收藏
+  mycollectionList: "/collection/findMomentByPageQuery", // 获取我的收藏列表
+
+  changePreAuthState: "/authentication/change", // 添加或取消方剂认证
 };
 
 export default base;

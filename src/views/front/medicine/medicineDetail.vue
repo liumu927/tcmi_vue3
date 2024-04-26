@@ -59,7 +59,7 @@
         </div>
         <div class="toolbox-right">
           <!-- 点赞 -->
-          <a class="tool-item-href">
+          <!-- <a class="tool-item-href">
             <img
               class="isactive"
               style="margin-right: 0px; display: none"
@@ -77,27 +77,28 @@
               class="count"
               style="color: rgb(153, 154, 170)"
             ></span>
-          </a>
+          </a> -->
 
           <!-- 收藏 -->
-          <a class="tool-item-href">
-            <img
-              class="isactive"
-              style="margin-right: 0px; display: none"
-              id="is-like-imgactive"
-              src="/like_active.png"
-            />
+          <a class="tool-item-href" @click="changeCollectState">
             <img
               class="isdefault"
-              style="margin-right: 0px; display: block"
+              style="display: block"
               id="is-like-img"
               src="/like.png"
+            />
+            <img
+              class="isactive"
+              style="display: none"
+              id="is-like-imgactive"
+              src="/like_active.png"
             />
             <span
               id="likeCount"
               class="count"
               style="color: rgb(153, 154, 170)"
-            ></span>
+              >{{ medicineDetail.collectionNum }}</span
+            >
           </a>
         </div>
       </div>
@@ -127,9 +128,12 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { reactive, ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getMedicineDetailApi } from "@/api/medicine";
+import { changeCollectStateApi } from "@/api/common";
 import { useUserStore } from "@/stores/useUserStore";
+import { ElMessage } from "element-plus";
+import { updateIconStyles } from "@/utils/util"
 
 const { userInfo } = useUserStore();
 const route = useRoute();
@@ -149,6 +153,27 @@ const notIsNormal = computed(() => {
 console.log("🚀 ~ notIsNormal ~ notIsNormal:", notIsNormal.value);
 
 /**
+ * 添加/取消收藏
+ */
+const changeCollectState = async () => {
+  
+  // 封装参数
+  const params = {
+    momentId: medicineDetail.value.medicineId,
+    collectType: 1,
+  };
+
+  // 发起请求
+  try {
+    const res = await changeCollectStateApi(params);
+    ElMessage.success(res.msg);
+    getMedInfo();
+  } catch (error) {
+    console.log("🚀 ~ changeCollectState ~ error:", error);
+  }
+};
+
+/**
  * 获取药材信息
  */
 const getMedInfo = async () => {
@@ -158,6 +183,9 @@ const getMedInfo = async () => {
 
     // 回显
     medicineDetail.value = res.data;
+
+    // 更新图标样式
+    updateIconStyles(res.data.collectState);
   } catch (error) {
     console.log("🚀 ~ getMedInfo ~ error:", error);
   }
@@ -293,8 +321,15 @@ const getMedInfo = async () => {
       display: flex;
       justify-content: space-around;
 
-      img {
-        height: 20px;
+      // 点赞 / 收藏
+      .tool-item-href {
+        width: 30px;
+        display: flex;
+        justify-content: space-between;
+
+        img {
+          height: 20px;
+        }
       }
     }
   }

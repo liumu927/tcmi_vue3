@@ -11,11 +11,18 @@
 
     <!-- 搜索、新增行内表单 -->
     <el-form :inline="true" :model="postForm" class="form-inline">
-      <el-form-item label="">
+      <el-form-item label="用户名">
         <el-input
           v-model="postForm.username"
           style="width: 240px"
           placeholder="请输入用户名"
+        />
+      </el-form-item>
+      <el-form-item label="逆臣">
+        <el-input
+          v-model="postForm.nickname"
+          style="width: 240px"
+          placeholder="请输入昵称"
         />
       </el-form-item>
       <el-form-item>
@@ -32,6 +39,7 @@
       max-height="400"
     >
       <el-table-column prop="username" label="用户名" width="100" />
+      <el-table-column prop="role.roleName" label="角色名称" />
       <el-table-column label="头像">
         <template #default="scope">
           <el-avatar :size="40" :src="scope.row.avatar" @error="errorHandler">
@@ -41,7 +49,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="role.roleName" label="角色名称" />
+      <el-table-column prop="nickname" label="昵称" />
       <el-table-column prop="email" label="邮箱号" />
       <el-table-column prop="updatedAt" label="最后操作时间" width="140px"/>
 
@@ -157,6 +165,7 @@ const router = useRouter();
 // 初始数据
 const postForm = reactive({
   username: "",
+  nickname: "",
   pageNum: 1, // 当前页码
   pageSize: 10, // 每页的记录数
 });

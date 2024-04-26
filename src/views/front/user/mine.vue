@@ -43,7 +43,10 @@
           <el-input v-model="updateForm.roleName" disabled />
         </el-form-item>
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="updateForm.username" />
+          <el-input v-model="updateForm.username" disabled/>
+        </el-form-item>
+        <el-form-item label="昵称" prop="nickname">
+          <el-input v-model="updateForm.nickname"/>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="updateForm.email" />
@@ -162,13 +165,13 @@ const validatorEmail = (rule, value, callback) => {
 
 // 表单验证
 const rules = reactive({
-  username: [
+  nickname: [
     {
       required: true,
-      message: "用户名不能为空",
+      message: "昵称不能为空",
       trigger: "blur",
     },
-    { min: 2, max: 12, message: "用户名长度为2~12个字符", trigger: "blur" },
+    { min: 2, max: 12, message: "长度为2~12个字符", trigger: "blur" },
   ],
   email: [
     {

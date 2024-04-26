@@ -93,7 +93,7 @@
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
-import { getPreListApi, getPreCategoryListApi } from "@/api/prescription";
+import { getPassAuthPreListApi, getPreCategoryListApi } from "@/api/prescription";
 import { useRouter, useRoute } from "vue-router";
 import PageQuery from "@/components/common/PageQuery.vue";
 
@@ -161,7 +161,7 @@ const getListBySelectType = (selectId) => {
  */
 const pageQuery = async () => {
   try {
-    var res = await getPreListApi(postForm);
+    var res = await getPassAuthPreListApi(postForm);
 
     tableData.value = res.data.items;
     total.value = res.data.total;

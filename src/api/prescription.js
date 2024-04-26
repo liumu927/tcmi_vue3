@@ -55,3 +55,18 @@ export const putUpdPrescriptionApi = (params) => {
 export const delPrescriptionApi = (prescriptionId) => {
   return req.delete(`${base.delPrescription}/${prescriptionId}`);
 };
+
+// 专业用户上传方剂
+export const postAuthAddPreApi = (params) => {
+  return req.post(base.authAddPre, params);
+};
+
+// 方剂列表(条件分页) -- 前台
+export const getPassAuthPreListApi = (params) => {
+  return req.get(base.passAuthPreList, { params });
+};
+
+// 专业用户对方剂 添加或取消认证
+export const postChangePreAuthStateApi = (params) => {
+  return req.post(base.changePreAuthState, params)
+}

@@ -55,3 +55,16 @@ export const postAddNoticeApi = (params) => {
 export const getNoticeDetailApi = (id) => {
   return req.get(`${base.noticeDetail}/${id}`)
 }
+
+
+ // ================================== 收藏api ==================================
+
+ // 添加或取消收藏
+ export const changeCollectStateApi = (params) => {
+  return req.post(base.changeCollectState, params)
+}
+
+// 获取我的收藏列表
+export const getMyCollectionListApi = (params) => {
+  return req.post(base.mycollectionList, params)
+}

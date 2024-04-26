@@ -1,6 +1,14 @@
 <template>
   <TopBar></TopBar>
-  <div class="formContainer">
+
+  <el-card>
+    <template #header>
+      <div class="tableBar">
+        <span>更新用户页</span>
+        <el-button type="success" plain @click="router.back()">返回</el-button>
+      </div>
+    </template>
+
     <el-form
       ref="ruleFormRef"
       :model="updateForm"
@@ -9,7 +17,7 @@
       label-position="top"
       :size="formSize"
       status-icon
-      style="font-weight: bold; width: 60%"
+      style="font-weight: bold; width: 60%;margin: 0 auto"
     >
       <el-form-item label="用户头像" prop="avatar">
         <!-- 
@@ -51,18 +59,22 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="updateForm.username" />
       </el-form-item>
+      <el-form-item label="昵称" prop="nickname">
+        <el-input v-model="updateForm.nickname" />
+      </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="updateForm.email" />
       </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
-        <el-button type="primary" @click="updateDetail()" id="submit">
+        <el-button type="success" @click="updateDetail()" id="submit">
           提交
         </el-button>
         <el-button @click="resetForm(ruleFormRef)" id="reset">重置</el-button>
       </el-form-item>
     </el-form>
-  </div>
+  </el-card>
+
   <Footer></Footer>
 </template>
 
@@ -90,8 +102,9 @@ const ruleFormRef = ref();
 const roleList = ref([]);
 // 收集表单内容
 const updateForm = reactive({
-  username: "",
   id: "",
+  username: "",
+  nickname: "",
   email: "",
   avatar: "",
   userRole: 0,
@@ -108,14 +121,16 @@ onMounted(() => {
 const getUserInfo = async () => {
   try {
     const res = await getUserInfoApi(userId);
-    const { username, id, email, avatar, role } = res.data;
 
     // 回显
-    updateForm.username = username;
-    updateForm.id = id;
-    updateForm.email = email;
-    updateForm.userRole = role.roleType;
-    updateForm.avatar = avatar;
+    // const { username, id, email, avatar, role } = res.data;
+    // updateForm.username = username;
+    // updateForm.id = id;
+    // updateForm.email = email;
+    // updateForm.avatar = avatar;
+
+    Object.assign(updateForm, res.data);
+    updateForm.userRole = res.data.role.roleType;
   } catch (error) {
     console.log("🚀 ~ getUserInfo ~ error:", error);
   }
@@ -219,37 +234,28 @@ const resetForm = (ruleFormRef) => {
 </script>
 
 <style scoped>
-.formContainer {
-  margin: 20px;
+.el-card {
+  width: 80%;
+  margin: 20px auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
 
-  .el-form {
-    padding: 20px 50px;
-    background-color: #fff;
-    border-radius: 10px;
-    position: relative;
-
-    .el-form-item {
-      width: 60%;
-    }
-  }
-  .avatar-uploader .avatar {
-    width: 100px;
-    height: 100px;
-    /* display: block; */
+  .tableBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  #submit {
+  /* #submit {
     position: absolute;
     right: -250px;
   }
 
   #reset {
     position: absolute;
-    right: -160px;
-  }
+    right: -180px;
+  } */
 }
 </style>
 

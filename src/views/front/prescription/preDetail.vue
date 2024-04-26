@@ -58,7 +58,7 @@
         </div>
         <div class="toolbox-right">
           <!-- 点赞 -->
-          <a class="tool-item-href">
+          <!-- <a class="tool-item-href">
             <img
               class="isactive"
               style="margin-right: 0px; display: none"
@@ -76,10 +76,10 @@
               class="count"
               style="color: rgb(153, 154, 170)"
             ></span>
-          </a>
+          </a> -->
 
           <!-- 收藏 -->
-          <a class="tool-item-href">
+          <a class="tool-item-href" @click="changeCollectState">
             <img
               class="isactive"
               style="margin-right: 0px; display: none"
@@ -96,11 +96,12 @@
               id="likeCount"
               class="count"
               style="color: rgb(153, 154, 170)"
-            ></span>
+              >{{ preDetail.collectionNum }}</span
+            >
           </a>
 
           <!-- 认证：只有专业用户可以进行认证 -->
-          <a class="tool-item-href">
+          <a class="tool-item-href" @click="changePreAuthState">
             <img
               class="isactive"
               style="margin-right: 0px; display: none"
@@ -117,7 +118,8 @@
               id="authCount"
               class="count"
               style="color: rgb(153, 154, 170)"
-            ></span>
+              >{{ preDetail.authenticationNum }}</span
+            >
           </a>
         </div>
       </div>
@@ -147,10 +149,11 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { reactive, ref, onMounted, computed } from "vue";
-import { getPreDetailApi } from "@/api/prescription";
+import { ref, onMounted, computed } from "vue";
+import { getPreDetailApi, postChangePreAuthStateApi } from "@/api/prescription";
 import { useUserStore } from "@/stores/useUserStore";
-import { Star, Medal, Pointer } from "@element-plus/icons-vue";
+import { changeCollectStateApi } from "@/api/common";
+import { updateIconStyles } from "@/utils/util";
 
 const { userInfo } = useUserStore();
 const route = useRoute();
@@ -167,8 +170,54 @@ onMounted(() => {
 
 // 判断用户身份 是否是普通用户
 const notIsNormal = computed(() => {
-  return userInfo.role.roleType === 303;
+  return userInfo.role.roleType === 302;
 });
+
+/**
+ * 添加 / 取消 认证
+ * 只有专业用户能够认证
+ */
+const changePreAuthState = async () => {
+  const params = {
+    momentId: preDetail.value.prescriptionId,
+  };
+  console.log("🚀 ~ changePreAuthState ~ params:", params)
+
+  // 判断用户身份
+  if (notIsNormal) {
+    try {
+      const res = await postChangePreAuthStateApi(params);
+      if (res) {
+        ElMessage.success(res.msg);
+      }
+      getPreInfo();
+    } catch (error) {
+      console.log("🚀 ~ changePreAuthState ~ error:", error);
+    }
+  }
+
+  console.log(preDetail.value);
+};
+
+/**
+ * 添加 / 取消收藏
+ */
+const changeCollectState = async () => {
+  // 封装参数
+  const params = {
+    momentId: preDetail.value.prescriptionId,
+    collectType: 2,
+  };
+
+  // 发起请求
+  try {
+    const res = await changeCollectStateApi(params);
+    ElMessage.success(res.msg);
+    getPreInfo();
+  } catch (error) {
+    console.log("🚀 ~ changeCollectState ~ error:", error);
+  }
+};
 
 /**
  * 获取方剂信息
@@ -182,6 +231,9 @@ const getPreInfo = async () => {
 
     // 存放药材组成数据
     preMeds.value = res.data.prescriptionMedicines;
+
+     // 更新图标样式
+     updateIconStyles(res.data.collectState, res.data.authenticationState);
   } catch (error) {
     console.log("🚀 ~ getPreInfo ~ error:", error);
   }
@@ -304,8 +356,20 @@ const getPreInfo = async () => {
       display: flex;
       justify-content: space-around;
 
-      img {
-        height: 20px;
+      // 点赞 / 收藏 / 认证
+      .tool-item-href {
+        width: 30px;
+        display: flex;
+        justify-content: space-between;
+
+        img {
+          height: 20px;
+        }
+      }
+
+      // 认证图标
+      & a:last-child {
+        width: 65px;
       }
     }
   }

@@ -209,7 +209,7 @@ const checkAuth = (path) => {
     color: $theme-font-color !important;
   }
   // 右侧头像
-  .el-drawer .el-avatar {
+  .el-avatar {
     margin: 20px;
   }
   // 抽屉标题区

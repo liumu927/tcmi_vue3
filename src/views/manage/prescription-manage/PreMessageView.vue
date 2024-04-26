@@ -172,7 +172,7 @@ const categorysList = ref([]);
 // 存放审核状态列表
 const statusList = reactive([
   { status: 0, statusTag: "正常" },
-  { status: 1, statusTag: "审核中" },
+  { status: 1, statusTag: "待审核" },
   { status: 2, statusTag: "审核通过" },
   { status: 3, statusTag: "被驳回" },
 ]);

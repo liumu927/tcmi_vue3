@@ -80,6 +80,10 @@ const base = {
   updateNotice: '/notices/update', // 更新公告
   deleteNotice: '/notices/delete', // 删除公告
 
+  medCateData: "/data/statistics/medicine/category", // 药材分类相关数据
+  preCateData: "/data/statistics/prescription/category", // 方剂分类相关数据
+  userData: "/data/statistics/user/role", // 方剂分类相关数据
+
   // ================================== 前台api ==================================
   updateAvatar: "/users/updateAvatar", // 更新用户头像
 

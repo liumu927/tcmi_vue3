@@ -68,3 +68,17 @@ export const getNoticeDetailApi = (id) => {
 export const getMyCollectionListApi = (params) => {
   return req.post(base.mycollectionList, params)
 }
+
+
+ // ================================== 统计api ==================================
+ export const getMedCateDataApi = () => {
+  return req.get(base.medCateData);
+ }
+
+ export const getPreCateDataApi = () => {
+  return req.get(base.preCateData);
+ }
+
+ export const getUserDataApi = () => {
+  return req.get(base.userData);
+ }

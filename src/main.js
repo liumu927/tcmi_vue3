@@ -8,6 +8,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 // 粒子库
 // import Particles from "particles.vue3";
 import Particles from "vue3-particles";
+import echarts from "@/utils/echarts"
 
 // 跳转后返回顶部
 router.afterEach((to,from,next) => {
@@ -19,4 +20,5 @@ createApp(App)
   .use(router)
   .use(createPinia().use(piniaPluginPersistedstate))
   .use(Particles)
+  .provide('$echarts', echarts)  // vue3采用provide, inject方式使用
   .mount("#app");

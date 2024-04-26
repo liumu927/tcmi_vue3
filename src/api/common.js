@@ -71,14 +71,23 @@ export const getMyCollectionListApi = (params) => {
 
 
  // ================================== 统计api ==================================
+ // 药材分类统计数据
  export const getMedCateDataApi = () => {
   return req.get(base.medCateData);
  }
 
+ // 方剂分类统计数据
  export const getPreCateDataApi = () => {
   return req.get(base.preCateData);
  }
 
+ // 用户统计数据
  export const getUserDataApi = () => {
   return req.get(base.userData);
  }
+
+ // 后台首页统计数据
+ export const getIndexDataApi = () => {
+  return req.get(base.indexData);
+ }
+

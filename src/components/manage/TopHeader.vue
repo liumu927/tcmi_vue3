@@ -2,7 +2,7 @@
   <div class="header">
     <p class="title">中 医 药 信 息 管 理 系 统 后 台</p>
     <div>
-      <p class="tip">欢迎 {{ userInfo.role.roleName }} 回来 🤗</p>
+      <p class="tip">{{ userInfo.role.roleName }} {{ userInfo.username }} ，您好 ~</p>
       <el-dropdown>
         <div class="el-dropdown-link">
           <!-- 头像框 -->

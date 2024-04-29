@@ -10,41 +10,41 @@
     </template>
 
     <el-table :data="tableData" stripe style="width: 100%">
-    <!-- 数据 -->
-    <el-table-column label="图片">
-      <template #default="scope">
-        <el-avatar :size="40" :src="scope.row.coverImg" @error="errorHandler">
-          <img
-            src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
-          />
-        </el-avatar>
-      </template>
-    </el-table-column>
-    <el-table-column prop="description" label="描述" show-overflow-tooltip />
-    <el-table-column prop="updatedBy" label="操作人" />
-    <el-table-column prop="updatedAt" label="最后操作时间" />
-    <!-- 操作 -->
-    <el-table-column label="操作" align="right">
-      <!-- 操作按钮 -->
-      <template #default="scope">
-        <el-button size="small" type="warning" @click="handleEdit(scope.row)"
-          >编辑</el-button
-        >
+      <!-- 数据 -->
+      <el-table-column label="图片">
+        <template #default="scope">
+          <el-avatar :size="40" :src="scope.row.coverImg" @error="errorHandler">
+            <img
+              src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+            />
+          </el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column prop="description" label="描述" show-overflow-tooltip />
+      <el-table-column prop="updatedBy" label="操作人" />
+      <el-table-column prop="updatedAt" label="最后操作时间" />
+      <!-- 操作 -->
+      <el-table-column label="操作" align="right"  width="140px" >
+        <!-- 操作按钮 -->
+        <template #default="scope">
+          <el-button size="small" type="warning" @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
 
-        <!-- confirm	点击确认按钮时触发 -->
-        <el-popconfirm
-          title="确定要删除吗?"
-          @confirm="handleDelete(scope.row)"
-          confirm-button-text="是"
-          cancel-button-text="否"
-        >
-          <template #reference>
-            <el-button size="small" type="danger">删除</el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
+          <!-- confirm	点击确认按钮时触发 -->
+          <el-popconfirm
+            title="确定要删除吗?"
+            @confirm="handleDelete(scope.row)"
+            confirm-button-text="是"
+            cancel-button-text="否"
+          >
+            <template #reference>
+              <el-button size="small" type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
   </el-card>
 
   <!-- 编辑框 -->
@@ -231,7 +231,14 @@ const handleConfirm = () => {
     // console.log(valid, fields);
 
     if (valid) {
-    } else {
+      //发送请求
+      const res = await putUpdateCoverApi(updateForm);
+
+      ElMessage.success(res.msg);
+
+      dialogVisible.value = false;
+
+      await getCoverList();
     }
   });
 };
@@ -302,7 +309,7 @@ const errorHandler = () => true;
 
 // 编辑表单
 .el-form-item {
-  width: 500px;
+  width: 90%;
 
   :deep(.el-form-item__label) {
     width: 80px;

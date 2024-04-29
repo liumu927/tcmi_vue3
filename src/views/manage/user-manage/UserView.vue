@@ -18,7 +18,7 @@
           placeholder="请输入用户名"
         />
       </el-form-item>
-      <el-form-item label="逆臣">
+      <el-form-item label="昵称">
         <el-input
           v-model="postForm.nickname"
           style="width: 240px"

@@ -1,6 +1,6 @@
 <template>
   <NavMenu></NavMenu>
-  <el-card>
+  <el-card class="med-container">
     <template #header>
       <div class="card-header">
         <h1>{{ medicineDetail.medicineName }}</h1>
@@ -25,29 +25,63 @@
         </div>
         <div class="text">
           <ul>
-            <li><span>药材别名</span>{{ medicineDetail.medicineAlias }}</li>
-            <li><span>药材归经</span>{{ medicineDetail.origin }}</li>
             <li>
-              <span>产地分布</span>{{ medicineDetail.originDistribution }}
+              <span>药材别名</span>
+              <p>{{ medicineDetail.medicineAlias }}</p>
             </li>
-            <li><span>药用部位</span>{{ medicineDetail.medicinalParts }}</li>
-            <li><span>药材性状</span>{{ medicineDetail.analysis }}</li>
-            <li><span>功效与作用</span>{{ medicineDetail.effects }}</li>
             <li>
-              <span>常用配方推荐</span>{{ medicineDetail.commonPrescriptions }}
+              <span>药材归经</span>
+              <p>{{ medicineDetail.origin }}</p>
             </li>
-            <li><span>临床应用</span>{{ medicineDetail.application }}</li>
-            <li><span>使用禁忌</span>{{ medicineDetail.usageTaboo }}</li>
-            <li><span>参考价格</span>{{ medicineDetail.referencePrice }}</li>
+            <li>
+              <span>产地分布</span>
+              <p>{{ medicineDetail.originDistribution }}</p>
+            </li>
+            <li>
+              <span>药用部位</span>
+              <p>{{ medicineDetail.medicinalParts }}</p>
+            </li>
+            <li>
+              <span>药材性状</span>
+              <p>{{ medicineDetail.analysis }}</p>
+            </li>
+            <li>
+              <span>功效与作用</span>
+              <p>{{ medicineDetail.effects }}</p>
+            </li>
+            <li>
+              <span>常用配方</span>
+              <p>{{ medicineDetail.commonPrescriptions }}</p>
+            </li>
+            <li>
+              <span>临床应用</span>
+              <p>{{ medicineDetail.application }}</p>
+            </li>
+            <li>
+              <span>使用禁忌</span>
+              <p>{{ medicineDetail.usageTaboo }}</p>
+            </li>
+            <li>
+              <span>参考价格</span>
+              <p>{{ medicineDetail.referencePrice }}</p>
+            </li>
           </ul>
         </div>
-        <div v-if="!notIsNormal" class="no-normal">
+        <div v-show="!notIsNormal" class="no-normal">
           <div class="med-img">
             <img :src="medicineDetail.structureImg" />
             <span>化学结构图</span>
           </div>
-          <p><span>药材化学成分</span>{{ medicineDetail.biologicalRelated }}</p>
-          <p><span>药理研究</span>{{ medicineDetail.chemicalStructure }}</p>
+          <ul>
+            <li>
+              <span>药材化学成分</span>
+              <p>{{ medicineDetail.biologicalRelated }}</p>
+            </li>
+            <li>
+              <span>药理研究</span>
+              <p>{{ medicineDetail.chemicalStructure }}</p>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -105,42 +139,38 @@
     </template>
   </el-card>
 
-  <el-card class="comments">
-    <template #header>
-      <div class="comments-header">
-        <h3>留言区</h3>
-      </div>
-    </template>
-    <div class="left-toolbox">
-      <div class="toolbox-left">
-        <el-avatar :size="50" :src="medicineDetail.coverImg" />
-        <span>{{ medicineDetail.author }}</span>
-      </div>
-      <div class="toolbox-middle"></div>
-      <div class="toolbox-right">
-        <p>发布时间：{{ medicineDetail.createdAt }}</p>
-      </div>
-    </div>
-  </el-card>
+  <!-- 留言区 -->
+  <Comment :momentId="getMedicineId" :postAddCommentForm="postAddCommentForm" />
 
   <Footer></Footer>
 </template>
 
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { getMedicineDetailApi } from "@/api/medicine";
 import { changeCollectStateApi } from "@/api/common";
 import { useUserStore } from "@/stores/useUserStore";
 import { ElMessage } from "element-plus";
-import { updateIconStyles } from "@/utils/util"
+import { updateIconStyles } from "@/utils/util";
+import Comment from "@/components/front/Comment.vue";
 
 const { userInfo } = useUserStore();
 const route = useRoute();
-// 接收通过路由跳转传过来的资讯ID
-const getMedicineId = route.query.medicineId;
+// 接收通过路由跳转传过来的资讯ID 字符串
+const getMedicineId = Number(route.query.medicineId);
 const medicineDetail = ref([]);
 const userRoleId = userInfo.role.roleType;
+
+// 请求发布评论的请求体
+const postAddCommentForm = reactive({
+  comment: "",
+  momentId: Number(getMedicineId),
+  commentType: 1,
+  rootCommentId: null,
+  parentId: null,
+  replyComment: "",
+});
 
 onMounted(() => {
   getMedInfo();
@@ -150,13 +180,11 @@ onMounted(() => {
 const notIsNormal = computed(() => {
   return userRoleId === 303;
 });
-console.log("🚀 ~ notIsNormal ~ notIsNormal:", notIsNormal.value);
 
 /**
  * 添加/取消收藏
  */
 const changeCollectState = async () => {
-  
   // 封装参数
   const params = {
     momentId: medicineDetail.value.medicineId,
@@ -179,7 +207,6 @@ const changeCollectState = async () => {
 const getMedInfo = async () => {
   try {
     const res = await getMedicineDetailApi(getMedicineId);
-    console.log("🚀 ~ getMedInfo ~ res:", res);
 
     // 回显
     medicineDetail.value = res.data;
@@ -198,7 +225,10 @@ const getMedInfo = async () => {
 .el-card {
   width: 80%;
   margin: 20px auto;
+}
 
+// 详情展示区
+.med-container {
   // 头部
   .card-header {
     text-align: center;
@@ -254,16 +284,19 @@ const getMedInfo = async () => {
 
           li {
             display: flex;
-            height: 35px;
-            line-height: 35px;
+            height: auto;
+            line-height: 25px;
             font-size: 12px;
             color: gray;
             span {
               display: block;
-              width: 110px;
+              width: 100px;
               font-size: 14px;
               font-weight: bold;
-              color: #cdaa7d;
+              color: $second-text;
+            }
+            p {
+              flex: 1;
             }
           }
         }
@@ -272,23 +305,36 @@ const getMedInfo = async () => {
       // 普通用户不可见区域
       .no-normal {
         margin-top: 20px;
+        min-height: 500px;
 
         .med-img {
           margin-bottom: 20px;
         }
 
-        p {
-          display: flex;
+        ul {
+          list-style: none;
+          // display: flex;
           height: 35px;
           line-height: 35px;
           font-size: 12px;
           color: gray;
-          span {
-            display: block;
-            width: 110px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #cdaa7d;
+
+          li {
+            display: flex;
+            height: auto;
+            line-height: 25px;
+            font-size: 12px;
+            color: gray;
+            span {
+              display: block;
+              width: 110px;
+              font-size: 14px;
+              font-weight: bold;
+              color: $second-text;
+            }
+            p {
+              flex: 1;
+            }
           }
         }
       }
@@ -333,10 +379,5 @@ const getMedInfo = async () => {
       }
     }
   }
-}
-
-.comments {
-  margin-top: 30px;
-  margin-bottom: 100px;
 }
 </style>

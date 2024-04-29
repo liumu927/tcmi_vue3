@@ -52,36 +52,30 @@
     </template>
   </el-card>
 
-  <el-card class="comments">
-    <template #header>
-      <div class="comments-header">
-        <h3>留言区</h3>
-      </div>
-    </template>
-    <div class="left-toolbox">
-      <div class="toolbox-left">
-        <el-avatar :size="50" :src="articleDetail.coverImg" />
-        <span>{{ articleDetail.author }}</span>
-      </div>
-      <div class="toolbox-middle"></div>
-      <div class="toolbox-right">
-        <p>发布时间：{{ articleDetail.createdAt }}</p>
-      </div>
-    </div>
-  </el-card>
+  <!-- 留言区 -->
+  <Comment :momentId="getArticleId" :postAddCommentForm="postAddCommentForm" />
 
   <Footer></Footer>
 </template>
 
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { getArticleDetailApi } from "@/api/articles";
 
 const route = useRoute();
 // 接收通过路由跳转传过来的资讯ID
-const getArticleId = route.query.articleId;
+const getArticleId = Number(route.query.articleId);
 const articleDetail = ref({});
+// 请求发布评论的请求体
+const postAddCommentForm = reactive({
+  comment: "",
+  momentId: Number(getArticleId),
+  commentType: 3,
+  rootCommentId: null,
+  parentId: null,
+  replyComment: "",
+});
 
 onMounted(() => {
   getArticleInfo();

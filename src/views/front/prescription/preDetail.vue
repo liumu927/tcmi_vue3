@@ -126,30 +126,14 @@
     </template>
   </el-card>
 
-  <el-card class="comments">
-    <template #header>
-      <div class="comments-header">
-        <h3>留言区</h3>
-      </div>
-    </template>
-    <div class="left-toolbox">
-      <div class="toolbox-left">
-        <el-avatar :size="50" :src="preDetail.coverImg" />
-        <span>{{ preDetail.author }}</span>
-      </div>
-      <div class="toolbox-middle"></div>
-      <div class="toolbox-right">
-        <p>发布时间：{{ preDetail.createdAt }}</p>
-      </div>
-    </div>
-  </el-card>
-
+  <!-- 留言区 -->
+  <Comment :momentId="getPreId" :postAddCommentForm="postAddCommentForm" />
   <Footer></Footer>
 </template>
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { getPreDetailApi, postChangePreAuthStateApi } from "@/api/prescription";
 import { useUserStore } from "@/stores/useUserStore";
 import { changeCollectStateApi } from "@/api/common";
@@ -159,10 +143,19 @@ const { userInfo } = useUserStore();
 const route = useRoute();
 const router = useRouter();
 // 接收通过路由跳转传过来的ID
-const getPreId = route.query.prescriptionId;
+const getPreId = Number(route.query.prescriptionId);
 const preDetail = ref([]);
 // 接收药材组成
 const preMeds = ref([]);
+// 请求发布评论的请求体
+const postAddCommentForm = reactive({
+  comment: "",
+  momentId: Number(getPreId),
+  commentType: 2,
+  rootCommentId: null,
+  parentId: null,
+  replyComment: "",
+});
 
 onMounted(() => {
   getPreInfo();

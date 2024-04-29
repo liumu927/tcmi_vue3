@@ -17,7 +17,7 @@
       label-position="top"
       :size="formSize"
       status-icon
-      style="font-weight: bold; width: 60%;margin: 0 auto"
+      style="font-weight: bold; width: 60%; margin: 0 auto"
     >
       <el-form-item label="用户头像" prop="avatar">
         <!-- 
@@ -171,7 +171,7 @@ const updateDetail = () => {
       ElMessage.success(res.msg);
 
       // 跳转回用户列表页
-      router.push({ name: "user" });
+      router.push("/manage/user_manage/user");
     } else {
       // 【问题】后端在这里的验证无效
       ElMessage.error("表单数据不符合规则！");
@@ -245,6 +245,14 @@ const resetForm = (ruleFormRef) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .avatar-uploader {
+    img {
+      width: 100%;
+      height: 70%;
+      object-fit: cover;
+    }
   }
 
   /* #submit {

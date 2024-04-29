@@ -6,7 +6,7 @@
       <div class="tableBar">
         <span v-if="getMedicineId">药材更新页</span>
         <span v-else>新增药材页</span>
-        <el-button type="success" plain @click="router.back();">返回</el-button>
+        <el-button type="success" plain @click="router.back()">返回</el-button>
       </div>
     </template>
 
@@ -115,7 +115,8 @@
       <!-- 按钮 -->
       <el-form-item>
         <el-button v-if="getMedicineId" type="success" @click="updateDetail"
-          >保存更新</el-button>
+          >保存更新</el-button
+        >
         <el-button v-else type="success" @click="addMedicine">新增</el-button>
         <el-button @click="resetForm(ruleFormRef)" id="reset">重置</el-button>
       </el-form-item>
@@ -300,6 +301,13 @@ const resetForm = (ruleFormRef) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .avatar {
+    height: 100%;
+    width: 70%;
+    object-fit: cover;
+    margin-bottom: 5px;
+    border-radius: 10px;
   }
 }
 </style>

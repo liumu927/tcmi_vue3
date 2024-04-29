@@ -76,6 +76,18 @@ const routes = [
     component: () => import("@/views/manage/article-manage/ArticleView.vue"),
   },
   {
+    // 留言管理-药材
+    path: "/manage/comment_manage/medecine",
+    name: "medicineComment",
+    component: () => import("@/views/manage/comment-manage/MedicineComment.vue"),
+  },
+  {
+    // 留言管理-方剂
+    path: "/manage/comment_manage/prescription",
+    name: "preComment",
+    component: () => import("@/views/manage/comment-manage/PrescriptionComment.vue"),
+  },
+  {
     // 系统管理-轮播图
     path: "/manage/system_manage/carousel",
     name: "carousel",

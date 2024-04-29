@@ -328,6 +328,14 @@ const resetForm = (ruleFormRef) => {
     justify-content: space-between;
     align-items: center;
   }
+
+  .avatar {
+    height: 100%;
+    width: 70%;
+    object-fit: cover;
+    margin-bottom: 5px;
+    border-radius: 10px;
+  }
 }
 </style>
 

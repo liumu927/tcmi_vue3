@@ -23,21 +23,6 @@
           </el-card>
         </div>
 
-        <div class="article">
-          <el-card>
-            <p>文章总数</p>
-            <span>{{ dataList.articleCount }}</span>
-            <span>篇</span>
-          </el-card>
-
-          <el-card>
-            <p>文章分类数</p>
-            <span>{{ dataList.articleTypeCount }}</span>
-            <span>类</span>
-          </el-card>
-          <!-- 考虑：加一个文章热度榜 -->
-        </div>
-
         <div class="medicine">
           <el-card>
             <p>药材总数</p>
@@ -65,6 +50,35 @@
             <span>类</span>
           </el-card>
         </div>
+
+        <div class="prescription">
+          <el-card>
+            <p>可见方剂数</p>
+            <span>{{ dataList.authPreCount }}</span>
+            <span>剂</span>
+          </el-card>
+
+          <el-card>
+            <p>审核方剂数</p>
+            <span>{{ dataList.authingPreCount }}</span>
+            <span>剂</span>
+          </el-card>
+        </div>
+
+        <div class="article">
+          <el-card>
+            <p>文章总数</p>
+            <span>{{ dataList.articleCount }}</span>
+            <span>篇</span>
+          </el-card>
+
+          <el-card>
+            <p>文章分类数</p>
+            <span>{{ dataList.articleTypeCount }}</span>
+            <span>类</span>
+          </el-card>
+          <!-- 考虑：加一个文章热度榜 -->
+        </div>
       </div>
     </el-card>
   </div>
@@ -84,6 +98,7 @@ const getIndexData = async () => {
   try {
     const res = await getIndexDataApi();
     dataList.value = res.data;
+    console.log("🚀 ~ getIndexData ~ dataList:", dataList);
   } catch (error) {
     console.log("🚀 ~ getIndexData ~ error:", error);
   }

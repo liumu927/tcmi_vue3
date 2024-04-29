@@ -305,7 +305,7 @@ const setData = (dataList) => {
   // 必须要设置大小
   div {
     width: 50%;
-    height: 400px;
+    height: 550px;
   }
 
   #med-cate {

@@ -1,10 +1,9 @@
 // 封装公共工具
 
-
 /**
  * 更新图标样式
- * @param {*} collectState 
- * @param {*} authState 
+ * @param {*} collectState
+ * @param {*} authState
  */
 export const updateIconStyles = (collectState, authState) => {
   // 收藏图标样式
@@ -21,10 +20,10 @@ export const updateIconStyles = (collectState, authState) => {
   // 认证图标样式
   const authImg = document.getElementById("is-auth-img");
   const authImgActive = document.getElementById("is-auth-imgactive");
-  if (authState === 1) {
+  if (authState && authState === 1) {
     authImg.style.display = "none";
     authImgActive.style.display = "block";
-  } else {
+  } else if (authState) {
     authImg.style.display = "block";
     authImgActive.style.display = "none";
   }

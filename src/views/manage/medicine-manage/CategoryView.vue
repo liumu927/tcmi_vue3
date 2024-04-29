@@ -31,7 +31,7 @@
       <el-table-column prop="updatedBy" label="操作人" />
 
       <!-- 自定义：操作 -->
-      <el-table-column label="操作" align="right">
+      <el-table-column label="操作" align="right"  width="140px" >
         <!-- 操作按钮 -->
         <template #default="scope">
           <el-button size="small" type="warning" @click="handleEdit(scope.row)"

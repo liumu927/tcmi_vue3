@@ -31,6 +31,9 @@ const base = {
   prescriptionList: "/prescription/page", // 方剂列表(条件分页)
   prescriptionDetail: "/prescription/detail", // 获取单个方剂详情(包括药材组成)
 
+  addComment: "/comment/add", // 添加留言
+  commentList: "/comment/page", // 获取留言列表(条件分页)
+
   // ================================== 后台api ==================================
   allRights: "/rights/all", // 获取全部权限
   manageRights: "/rights/manage", // 后台权限

@@ -170,8 +170,7 @@ const rules = reactive({
       required: true,
       message: "请输入申请理由",
       trigger: "blur",
-    },
-    { min: 6, max: 12, message: "Length should be 6 to 12", trigger: "blur" },
+    }
   ],
   evidenceImg: [
     {

@@ -188,8 +188,6 @@ const changePreAuthState = async () => {
       console.log("🚀 ~ changePreAuthState ~ error:", error);
     }
   }
-
-  console.log(preDetail.value);
 };
 
 /**

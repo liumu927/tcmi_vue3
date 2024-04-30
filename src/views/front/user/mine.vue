@@ -39,14 +39,14 @@
         <el-form-item label="用户ID" prop="id">
           <el-input v-model="updateForm.id" disabled />
         </el-form-item>
-        <el-form-item label="用户身份" prop="roleName" disabled >
+        <el-form-item label="用户身份" prop="roleName" disabled>
           <el-input v-model="updateForm.roleName" disabled />
         </el-form-item>
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="updateForm.username" disabled/>
+          <el-input v-model="updateForm.username" disabled />
         </el-form-item>
         <el-form-item label="昵称" prop="nickname">
-          <el-input v-model="updateForm.nickname"/>
+          <el-input v-model="updateForm.nickname" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="updateForm.email" />
@@ -67,15 +67,12 @@
 import { useRouter } from "vue-router";
 import { reactive, ref, onMounted } from "vue";
 import { Plus } from "@element-plus/icons-vue";
-import {
-  getUserInfoApi,
-  updateUserDetailApi
-} from "@/api/user";
+import { getUserInfoApi, updateUserDetailApi } from "@/api/user";
 import { emailReg } from "@/utils/regexp.js";
 import { useTokenStore } from "@/stores/useTokenStore";
 import { useUserStore } from "@/stores/useUserStore";
 
-const { userInfo } = useUserStore();
+const { userInfo, changeUser } = useUserStore();
 const { token } = useTokenStore();
 const router = useRouter();
 // 控制该表单内组件的尺寸
@@ -123,7 +120,9 @@ const updateDetail = () => {
       // 更新用户基础信息
       updateForm.userRole = updateForm.role.roleType;
       const res = await updateUserDetailApi(updateForm);
-
+      // 同步本地pinia
+      const updUserInfo = await getUserInfoApi(userInfo.id);
+      changeUser(updUserInfo.data);
       ElMessage.success(res.msg + "![即将为您跳转到首页]");
       setTimeout(() => {
         // 成功 跳回首页

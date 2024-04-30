@@ -330,7 +330,7 @@ const handleDelete = async (item) => {
 
 // 表单
 .el-dialog .el-form-item {
-  width: 500px;
+  width: 90%;
 
   :deep(.el-form-item__label) {
     width: 75px;

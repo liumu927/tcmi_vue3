@@ -23,7 +23,7 @@ export const updateIconStyles = (collectState, authState) => {
   if (authState && authState === 1) {
     authImg.style.display = "none";
     authImgActive.style.display = "block";
-  } else if (authState) {
+  } else if (!authState) {
     authImg.style.display = "block";
     authImgActive.style.display = "none";
   }

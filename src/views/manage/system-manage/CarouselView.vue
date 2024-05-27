@@ -2,7 +2,7 @@
   <el-card>
     <template #header>
       <div class="tableBar">
-        <span>轮播图列表</span>
+        <span>封面列表</span>
         <el-button type="success" @click="dialog = true" :icon="Plus"
           >新增封面</el-button
         >
@@ -175,7 +175,7 @@ onMounted(() => {
 });
 
 /**
- * 获取轮播图列表
+ * 获取封面列表
  */
 const getCoverList = async () => {
   try {

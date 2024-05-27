@@ -127,7 +127,7 @@
   </el-card>
 
   <!-- 留言区 -->
-  <Comment :momentId="getPreId" :postAddCommentForm="postAddCommentForm" />
+  <Comment :toCommentData="toCommentData" />
   <Footer></Footer>
 </template>
 
@@ -148,13 +148,9 @@ const preDetail = ref([]);
 // 接收药材组成
 const preMeds = ref([]);
 // 请求发布评论的请求体
-const postAddCommentForm = reactive({
-  comment: "",
+const toCommentData = reactive({
   momentId: Number(getPreId),
-  commentType: 2,
-  rootCommentId: null,
-  parentId: null,
-  replyComment: "",
+  commentType: 2
 });
 
 onMounted(() => {

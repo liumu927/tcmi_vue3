@@ -53,7 +53,7 @@
       style="width: 100%"
       show-overflow-tooltip
     >
-      <el-table-column prop="medicineName" label="药材名" fixed/>
+      <el-table-column prop="medicineName" label="药材名" width="150px" fixed/>
       <el-table-column label="图示">
         <template #default="scope">
           <el-avatar

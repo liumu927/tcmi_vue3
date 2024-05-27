@@ -102,9 +102,9 @@ const formSize = ref("default");
     Object.assign(ruleForm, res.data)
 
     if(ruleForm.status === 1) {
-      ElMessage.warning("您的正在审核中[无需重复申请]")
+      ElMessage.warning("申请正在审核中[无需重复申请]")
     } else if (ruleForm.status === 3) {
-      ElMessage.warning("您的申请被驳回[可重新申请]")
+      ElMessage.warning("申请被驳回[可重新申请]")
     }
   } catch (error) {
     console.log("🚀 ~ getUserInfo ~ error:", error);

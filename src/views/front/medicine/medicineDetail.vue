@@ -140,7 +140,9 @@
   </el-card>
 
   <!-- 留言区 -->
-  <Comment :momentId="getMedicineId" :postAddCommentForm="postAddCommentForm" />
+  <Comment 
+    :toCommentData="toCommentData"
+  />
 
   <Footer></Footer>
 </template>
@@ -163,13 +165,9 @@ const medicineDetail = ref([]);
 const userRoleId = userInfo.role.roleType;
 
 // 请求发布评论的请求体
-const postAddCommentForm = reactive({
-  comment: "",
+const toCommentData = reactive({
   momentId: Number(getMedicineId),
-  commentType: 1,
-  rootCommentId: null,
-  parentId: null,
-  replyComment: "",
+  commentType: 1
 });
 
 onMounted(() => {
@@ -305,7 +303,7 @@ const getMedInfo = async () => {
       // 普通用户不可见区域
       .no-normal {
         margin-top: 20px;
-        min-height: 500px;
+        min-height: 350px;
 
         .med-img {
           margin-bottom: 20px;

@@ -33,9 +33,9 @@
           {{ articleDetail.content }}
         </div>
         <!-- 文章图 -->
-        <p>
+        <!-- <p>
           <img :src="articleDetail.articleImg" />
-        </p>
+        </p> -->
       </div>
     </div>
 
@@ -53,7 +53,7 @@
   </el-card>
 
   <!-- 留言区 -->
-  <Comment :momentId="getArticleId" :postAddCommentForm="postAddCommentForm" />
+  <Comment :toCommentData="toCommentData" />
 
   <Footer></Footer>
 </template>
@@ -68,13 +68,9 @@ const route = useRoute();
 const getArticleId = Number(route.query.articleId);
 const articleDetail = ref({});
 // 请求发布评论的请求体
-const postAddCommentForm = reactive({
-  comment: "",
+const toCommentData = reactive({
   momentId: Number(getArticleId),
-  commentType: 3,
-  rootCommentId: null,
-  parentId: null,
-  replyComment: "",
+  commentType: 3
 });
 
 onMounted(() => {

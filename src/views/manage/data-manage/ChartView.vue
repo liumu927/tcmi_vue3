@@ -108,6 +108,15 @@ const initUserRoleEcharts = () => {
         type: "shadow",
       },
     },
+    toolbox: {
+      show: true,
+      feature: {
+        mark: { show: true },
+        dataView: { show: true, readOnly: false },
+        restore: { show: true },
+        saveAsImage: { show: true },
+      },
+    },
     grid: {
       left: "3%",
       right: "4%",

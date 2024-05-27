@@ -1,8 +1,10 @@
 <!-- 留言区
     【待优化】
-      1. 发布评论后，输入框的值没有清空
+      1. 发布评论后，输入框的值没有清空【已解决】
       2. 发布四级及以上的评论后，页面没有及时刷新
-      3. 回复框的控制，有一些生硬；点击第一个后，点击第二个时需要点两次，因为要先关闭第一个
+      3. 回复框的控制，有一些生硬；点击第一个后，点击第二个时需要点两次，因为要先关闭第一个【已解决：加一个判断】
+      4. 先点击回复，再点击编辑区输入框并发表评论，会设置rootCommentId和parentId【已解决：resetReply】
+
     【未做】
       1. 删除评论
       2. 子评论分页
@@ -26,6 +28,7 @@
           <el-input
             placeholder="与其赞同别人的话语，不如自己畅所欲言..."
             v-model="comment"
+            @focus="resetReply"
           ></el-input>
         </div>
         <div class="editbox-right">
@@ -61,10 +64,7 @@
           />
 
           <!-- 子评论：三级 -->
-          <template
-            v-for="(child, childIndex) in item.children"
-            :key="childIndex"
-          >
+          <template v-for="child in item.children" :key="child.id">
             <template v-if="child.children && child.children.length">
               <ChildComment
                 :childComments="child.children"
@@ -74,8 +74,6 @@
               />
             </template>
           </template>
-
-          <!-- 子评论分页器【未做】 -->
         </div>
 
         <!-- 回复框 -->
@@ -123,7 +121,7 @@ const replyComment = ref("");
 // 存储请求回来的数据总数
 const total = ref(0);
 // 存储请求回来的留言列表
-const commentsList = ref();
+const commentsList = ref([]);
 // 控制回复框
 const showReplyIndex = ref(0);
 const showReply = ref(false);
@@ -134,11 +132,7 @@ onMounted(() => {
 
 // 接收父组件传过来的值
 const props = defineProps({
-  momentId: {
-    type: Number,
-    required: true,
-  },
-  postAddCommentForm: {
+  toCommentData: {
     type: Object,
     required: true,
   },
@@ -150,7 +144,17 @@ const getCommentForm = reactive({
   pageSize: 10,
   // ChildPageNum: 1,
   // ChildPageSize: 2,
-  momentId: props.momentId,
+  momentId: props.toCommentData.momentId,
+});
+
+// 新增留言的请求体  数据从父组件来
+const postAddCommentForm = reactive({
+  comment: "",
+  momentId: props.toCommentData.momentId,
+  commentType: props.toCommentData.commentType,
+  rootCommentId: null,
+  parentId: null,
+  replyComment: "",
 });
 
 /**
@@ -162,14 +166,36 @@ const getCommentList = async () => {
     const res = await getCommentListApi(getCommentForm);
     total.value = res.data.total;
     commentsList.value = res.data.items;
-  } catch (error) {}
+    console.log("🚀 ~ getCommentList ~ commentsList:", commentsList.value)
+  } catch (error) {
+    console.log("🚀 ~ getCommentList ~ error:", error)
+  }
+};
+
+/**
+ * 重置编辑区输入框
+ */
+const resetReply = () => {
+  showReplyIndex.value = 0;
+  showReply.value = false;
+  // postAddCommentForm.rootCommentId = null;
+  // postAddCommentForm.parentId = null;
+
+  const replyBox = document.querySelector(".reply-box-container");
+  replyBox.removeAttribute("data-parent-comment-id");
+  replyBox.removeAttribute("data-root-comment-id");
+  // console.log("🚀 ~ resetReply ~ replyBox:", replyBox)
 };
 
 /**
  * 显示 回复编辑框
  */
 const handleReply = (rootCommentId, parentId) => {
-  // 解决只在 当前点击项下 显示回复框
+  // 如果已经有一个回复框显示，先关闭它
+  if (showReplyIndex !== 0) {
+    showReply.value = false;
+  }
+  // 更新当前显示的回复框的索引
   showReplyIndex.value = rootCommentId;
   // 控制显示隐藏
   showReply.value = !showReply.value;
@@ -178,42 +204,47 @@ const handleReply = (rootCommentId, parentId) => {
   // 更新回复编辑框的属性，作为参数传给父组件
   replyBox.setAttribute("data-parent-comment-id", parentId);
   replyBox.setAttribute("data-root-comment-id", rootCommentId);
+  // console.log("🚀 ~ handleReply ~ replyBox:", replyBox)
 };
 
 /**
- * 发布/回复 评论
+ * 在发布评论成功后，调用清空输入框内容的方法
+ * @param {*} allComment
  */
-const handlePublish = async (comment) => {
-  // 封装请求体：数据从父组件来
-  const params = {
-    comment: comment,
-    momentId: props.postAddCommentForm.momentId,
-    commentType: props.postAddCommentForm.commentType,
-    rootCommentId: null,
-    parentId: null,
-    replyComment: "",
-  };
+const handlePublish = (allComment) => {
+  publishComment(allComment).then(() => {
+    comment.value = "";
+    replyComment.value = "";
+    getCommentList();
+  });
+};
 
-  // 子评论 添加属性
+/**
+ * 发布/回复
+ */
+const publishComment = async (allComment) => {
+  postAddCommentForm.comment = allComment;
+
+  // 获取回复框上自定义属性的值
   const replyBox = document.querySelector(".reply-box-container");
-  if (replyBox) {
-    // 获取根评论ID
+  if (
+    replyBox &&
+    replyBox.hasAttribute("data-root-comment-id") &&
+    replyBox.hasAttribute("data-parent-comment-id")
+  ) {
     const rootCommentId = replyBox.getAttribute("data-root-comment-id");
-    // 获取直接父评论ID
     const parentId = replyBox.getAttribute("data-parent-comment-id");
 
-    params.rootCommentId = rootCommentId;
-    params.parentId = parentId;
+    postAddCommentForm.rootCommentId = rootCommentId;
+    postAddCommentForm.parentId = parentId;
   }
 
-  // 发送请求
   try {
-    const res = await postAddCommentApi(params);
+    const res = await postAddCommentApi(postAddCommentForm);
     ElMessage.success(res.msg);
     getCommentList();
-    // 【问题】发布评论后，输入框中的值没有消失
   } catch (error) {
-    console.log("🚀 ~ handlePublish ~ error:", error);
+    console.log("🚀 ~ publishComment ~ error:", error);
   }
 };
 

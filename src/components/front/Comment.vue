@@ -166,9 +166,9 @@ const getCommentList = async () => {
     const res = await getCommentListApi(getCommentForm);
     total.value = res.data.total;
     commentsList.value = res.data.items;
-    console.log("🚀 ~ getCommentList ~ commentsList:", commentsList.value)
+    console.log("🚀 ~ getCommentList ~ commentsList:", commentsList.value);
   } catch (error) {
-    console.log("🚀 ~ getCommentList ~ error:", error)
+    console.log("🚀 ~ getCommentList ~ error:", error);
   }
 };
 
@@ -182,9 +182,15 @@ const resetReply = () => {
   // postAddCommentForm.parentId = null;
 
   const replyBox = document.querySelector(".reply-box-container");
-  replyBox.removeAttribute("data-parent-comment-id");
-  replyBox.removeAttribute("data-root-comment-id");
-  // console.log("🚀 ~ resetReply ~ replyBox:", replyBox)
+  if (
+    replyBox &&
+    replyBox.hasAttribute("data-root-comment-id") &&
+    replyBox.hasAttribute("data-parent-comment-id")
+  ) {
+    replyBox.removeAttribute("data-parent-comment-id");
+    replyBox.removeAttribute("data-root-comment-id");
+    // console.log("🚀 ~ resetReply ~ replyBox:", replyBox)
+  }
 };
 
 /**

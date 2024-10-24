@@ -112,6 +112,9 @@
       <el-form-item label="药理研究" prop="biologicalRelated">
         <el-input v-model="updateForm.biologicalRelated" />
       </el-form-item>
+      <el-form-item label="药材备注" prop="comment">
+        <el-input v-model="updateForm.comment" />
+      </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
         <el-button v-if="getMedicineId" type="success" @click="updateDetail"
@@ -168,6 +171,7 @@ const updateForm = reactive({
   chemicalStructure: "",
   structureImg: "",
   biologicalRelated: "",
+  comment: ""
 });
 
 onMounted(() => {

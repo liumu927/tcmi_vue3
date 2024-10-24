@@ -235,7 +235,7 @@ const handleAdd = async () => {
     dialog.value = false;
     // console.log("🚀 ~ handleAdd ~ res:", res)
   } catch (error) {
-    console.log("🚀 ~ handleAdd ~ error:", error);
+    ElMessage.warning("🚀 ~ handleAdd ~ error:", error);
   }
 };
 

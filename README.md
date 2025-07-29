@@ -25,38 +25,38 @@
 
 ## 界面展示
 
-![2020285249803](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285249803.png)
+![2020285249803](./README.assets/2020285249803.png)
 
-![2020285250039](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285250039.png)
+![2020285250039](./README.assets/2020285250039.png)
 
-![2020285250186](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285250186.png)
+![2020285250186](./README.assets/2020285250186.png)
 
-![2020285250389](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285250389.png)
+![2020285250389](./README.assets/2020285250389.png)
 
-![2020285250429](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285250429.png)
+![2020285250429](./README.assets/2020285250429.png)
 
-![2020285250579](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285250579.png)
+![2020285250579](./README.assets/2020285250579.png)
 
-![2020285251041](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285251041.png)
+![2020285251041](./README.assets/2020285251041.png)
 
-![2020285251086](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285251086.png)
+![2020285251086](./README.assets/2020285251086.png)
 
-![2020285251205](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285251205.png)
+![2020285251205](./README.assets/2020285251205.png)
 
-![2020285252468](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285252468.png)
+![2020285252468](./README.assets/2020285252468.png)
 
-![2020285253310](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285253310.png)
+![2020285253310](./README.assets/2020285253310.png)
 
-![2020285253861](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285253861.png)
+![2020285253861](./README.assets/2020285253861.png)
 
-![2020285253905](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285253905.png)
+![2020285253905](./README.assets/2020285253905.png)
 
-![2020285255514](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285255514.png)
+![2020285255514](./README.assets/2020285255514.png)
 
-![2020285256179](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285256179.png)
+![2020285256179](./README.assets/2020285256179.png)
 
-![2020285259243](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285259243.png)
+![2020285259243](./README.assets/2020285259243.png)
 
-![2020285259284](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285259284.png)
+![2020285259284](./README.assets/2020285259284.png)
 
-![2020285253046](D:\YKL\coding\backup\ykl\tcmi-vue\README.assets\2020285253046.png)
+![2020285253046](./README.assets/2020285253046.png)
